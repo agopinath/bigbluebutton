@@ -60,6 +60,7 @@ package org.bigbluebutton.modules.whiteboard.views
     }
 
     public function onMouseDown(mouseX:Number, mouseY:Number, tool:WhiteboardTool):void
+
     {
       if (tool.graphicType == WhiteboardConstants.TYPE_TEXT) {
         _mouseXDown = mouseX;
@@ -98,9 +99,9 @@ package org.bigbluebutton.modules.whiteboard.views
                 var tbWidth:Number = mouseX - _mouseXDown;
                 var tbHeight:Number = mouseY - _mouseYDown;
                 
-                if (tbHeight < 15 || tbWidth < 50) return;
+                if (tbHeight < 20 || tbWidth < 50) return;
                 
-                var tobj:TextDrawAnnotation = _shapeFactory.createTextObject("", 0x000000, _mouseXDown, _mouseYDown, tbWidth, tbHeight, 18);
+                var tobj:TextDrawAnnotation = _shapeFactory.createTextObject("", 0xADADAD, _mouseXDown, _mouseYDown, tbWidth, tbHeight, 18);
 
                 sendTextToServer(TextObject.TEXT_CREATED, tobj);                    
             }        
