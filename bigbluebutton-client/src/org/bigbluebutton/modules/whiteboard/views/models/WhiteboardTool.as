@@ -28,8 +28,8 @@ package org.bigbluebutton.modules.whiteboard.views.models
     {
         public var graphicType:String = WhiteboardConstants.TYPE_SHAPE;
         public var toolType:String = DrawObject.PENCIL;
-        public var drawColor:uint = 0x000000;
-        public var fillColor:uint = 0x000000;
+        public var drawColor:uint = 0xFFFFFF;
+        public var fillColor:uint = 0xFFFFFF;
         public var thickness:uint = 1;       
         public var _fontStyle:String = "_sans";
         public var _fontSize:Number = 18;
