@@ -170,10 +170,12 @@ package org.bigbluebutton.modules.whiteboard
       tobj.wordWrap = true;
             
       if (background) {
+	//LogUtil.debug(" Making background black");
                 tobj.makeEditable(true);
                 tobj.border = true;
         tobj.background = true;
-        tobj.backgroundColor = 0xFFFFFF;                
+        tobj.backgroundColor = 0x000000;                
+	//LogUtil.debug("Background is now " + tobj.background + " and colored " + tobj.backgroundColor);
       }
       
       tobj.registerListeners(textObjGainedFocusListener, textObjLostFocusListener, textObjTextChangeListener, textObjSpecialListener);
