@@ -99,7 +99,7 @@ package org.bigbluebutton.modules.whiteboard.views
                 var tbWidth:Number = mouseX - _mouseXDown;
                 var tbHeight:Number = mouseY - _mouseYDown;
                 
-                if (tbHeight < 20 || tbWidth < 50) return;
+                if (tbHeight < 25 || tbWidth < 50) return;
                 
                 var tobj:TextDrawAnnotation = _shapeFactory.createTextObject("", 0xADADAD, _mouseXDown, _mouseYDown, tbWidth, tbHeight, 18);
 
