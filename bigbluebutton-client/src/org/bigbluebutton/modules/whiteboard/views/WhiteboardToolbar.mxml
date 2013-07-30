@@ -365,7 +365,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	the "fill" color that is used only if "fill" is enabled in WhiteboardCanvasModel
 	-->
 	<mx:ColorPicker change="changeColor(event)" id="cpik"  visible="{showWhiteboardToolbar}"
-                  selectedColor="0x000000" width="30" dataProvider="{colorPickerColours}" swatchPanelStyleName="colorPickerStyle"
+                  selectedColor="0xFFFFFF" width="30" dataProvider="{colorPickerColours}" swatchPanelStyleName="colorPickerStyle"
                   toolTip="{ResourceUtil.getInstance().getString('bbb.highlighter.toolbar.color')}"
                   tabIndex="{baseIndex+9}"
 				  accessibilityName="{ResourceUtil.getInstance().getString('bbb.highlighter.toolbar.color')}"/>
