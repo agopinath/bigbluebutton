@@ -73,7 +73,7 @@ package org.bigbluebutton.modules.whiteboard
 
     /* represents the max number of 'points' enumerated in 'segment' before 
       sending an update to server. Used to prevent spamming red5 with unnecessary packets */
-    private var sendShapeFrequency:uint = 5;	
+    private var sendShapeFrequency:uint = 2;	
 
     /* same as above, except a faster interval may be desirable when erasing, for aesthetics */
     private var sendEraserFrequency:uint = 2;	
