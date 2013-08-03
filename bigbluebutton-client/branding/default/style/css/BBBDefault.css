@@ -175,7 +175,7 @@ DataGrid {
 }
 
 .presentationUploadButtonStyle, .presentationBackButtonStyle, .presentationBackButtonDisabledStyle, .presentationForwardButtonStyle, .presentationForwardButtonDisabledStyle,
-.presentationFitToWidthButtonStyle, .presentationFitToPageButtonStyle 
+.presentationFitToWidthButtonStyle, .presentationFitToPageButtonStyle , .presentationConlibButtonStyle
 {
   textIndent: 0;
   paddingLeft: 10;
@@ -196,6 +196,10 @@ DataGrid {
 
 .presentationUploadButtonStyle {
   icon:   Embed('assets/images/upload.png');   
+}
+
+.presentationConlibButtonStyle {
+  icon:   Embed('assets/images/conlib.png');   
 }
 
 .presentationBackButtonStyle {

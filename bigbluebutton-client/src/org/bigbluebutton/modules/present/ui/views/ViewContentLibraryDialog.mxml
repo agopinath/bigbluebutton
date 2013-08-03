@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  BigBlueButton open source conferencing system - http://www.bigbluebutton.org
+  
+  Copyright (c) 2010 BigBlueButton Inc. and by respective authors (see below).
+  
+  BigBlueButton is free software; you can redistribute it and/or modify it under the 
+  terms of the GNU Lesser General Public License as published by the Free Software 
+  Foundation; either version 2.1 of the License, or (at your option) any later 
+  version. 
+  
+  BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY 
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+  PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License along 
+  with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ 
+  $Id: $
+-->
+
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:mate="http://mate.asfusion.com/"
+				width="350" height="90" 
+				layout="horizontal" 
+				creationComplete="onCreationComplete()" 
+				keyDown="onKeyDown(event)"
+				title="Content Library Manager">
+	<!--
+	<mate:Listener type="{ContentLibraryEvent.CONTENT_LIBRARY_RECEIVED}" method="handleContentLibraryFiles" />
+	-->
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Menu;
+			import mx.events.MenuEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.bigbluebutton.common.LogUtil;
+			import org.bigbluebutton.modules.present.events.ConlibEvent;
+			
+			[Bindable] public var conlibFileNamesAC:ArrayCollection;
+			
+			private function shareContentLibraryDocument():void {
+				LogUtil.debug("GOT OKAY CLICK FROM CONLIB DIALOG - SELECTED FILE: " + conlibFiles.selectedLabel);
+			}
+			
+			private function onCreationComplete():void {
+				conlibFiles.setFocus();
+				LogUtil.debug("Created Conlib window");
+				getContentLibraryFiles();
+			}
+			
+			private function getContentLibraryFiles():void {
+				LogUtil.debug("REQUESTING CONLIB FILES FROM SERVER");
+				dispatchEvent(new ConlibEvent(ConlibEvent.REQUEST_CONTENT_LIBRARY));
+			}
+			
+			private function handleContentLibraryFiles(e:ConlibEvent):void {
+				LogUtil.debug("RECEIVED CONLIB FILES FROM SERVER");
+				conlibFileNamesAC = ArrayCollection(e.conLibData);
+			}
+			
+			private function closeConlibWindow():void{
+				LogUtil.debug("Content library button cancel clicked");
+				var event:ConlibEvent = new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW);
+				dispatchEvent(event);
+			}
+			
+			private function onKeyDown(e:KeyboardEvent):void{
+				if (e.keyCode == Keyboard.ENTER){
+					shareContentLibraryDocument();
+				}
+			}
+		]]>
+	</mx:Script>
+
+	<mx:ComboBox id="conlibFiles" width="125" dataProvider="{conlibFileNamesAC}"/>
+	<mx:Button id="okButton" click="shareContentLibraryDocument()" label="Show" />
+	<mx:Button id="closeButton" click="closeConlibWindow()" label="Cancel" />
+	
+</mx:TitleWindow>

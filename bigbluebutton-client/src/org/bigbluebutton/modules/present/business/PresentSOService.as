@@ -17,6 +17,7 @@
 *
 */
 package org.bigbluebutton.modules.present.business {
+	import mx.collections.ArrayCollection;
 	import com.asfusion.mate.events.Dispatcher;	
 	import flash.events.AsyncErrorEvent;
 	import flash.events.NetStatusEvent;
@@ -36,6 +37,7 @@ package org.bigbluebutton.modules.present.business {
 	import org.bigbluebutton.modules.present.events.RemovePresentationEvent;
 	import org.bigbluebutton.modules.present.events.UploadEvent;
 	import org.bigbluebutton.modules.present.events.ZoomEvent;
+	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	
 	public class PresentSOService {
 		public static const NAME:String = "PresentSOService";
@@ -670,6 +672,49 @@ package org.bigbluebutton.modules.present.business {
 				_soErrors = new Array();
 			}
 			_soErrors.push(error);
+		}
+		
+		public function requestContentLibraryData(e:ConlibEvent):void {
+			LogUtil.debug("Sending request content library event");
+			nc.call( "presentation.getAccessibleConlibFiles",// Remote function name
+				new Responder(
+					// participants - On successful result
+					function(result:Object):void { 	
+						if (result) {
+							LogUtil.debug("Successfully requested conlib data");							
+						}	
+					},	
+					// status - On error occurred
+					function(status:Object):void { 
+						LogUtil.error("Error occurred:"); 
+						for (var x:Object in status) { 
+							LogUtil.error(x + " : " + status[x]); 
+						} 
+					}
+				), //new Responder
+				33//LearnToBeAccountManager.getInstance().getLearnToBeUserID()
+			); //_netConnection.call
+		}
+		
+		public function requestContentLibraryDataCallback(data:Array):void {
+			if(data == null || data.length == 0) LogUtil.debug("data empty");
+			LogUtil.debug("SUCCESSFULLY RECEIVED CONTENT LIBRARY DATA!!!!!!!!!!!!! HAS FILES");
+			//LogUtil.debug(data.toArray());
+			LogUtil.debug("Received contents: " + data.toString());
+			for(var i:int = 0; i < data.length; i++) {
+				LogUtil.debug("received file: " + data[i]);
+			}
+		}
+		
+		public function handleReceivedContentLibraryData(conlibData:Object):void {
+			var tempData:Array = new Array();
+			for(var key in conlibData) {
+				LogUtil.debug("Got file: " + key);
+				tempData.push(key);
+			}
+			var e:ConlibEvent = new ConlibEvent(ConlibEvent.CONTENT_LIBRARY_RECEIVED);
+			e.conLibData = tempData;
+			dispatcher.dispatchEvent(e);
 		}
 	}
 }

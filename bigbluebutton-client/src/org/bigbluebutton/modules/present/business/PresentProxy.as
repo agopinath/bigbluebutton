@@ -37,6 +37,7 @@ package org.bigbluebutton.modules.present.business
 	import org.bigbluebutton.modules.present.events.RemovePresentationEvent;
 	import org.bigbluebutton.modules.present.events.SlideEvent;
 	import org.bigbluebutton.modules.present.events.UploadEvent;
+	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	import org.bigbluebutton.modules.present.managers.PresentationSlides;
 	
 	public class PresentProxy
@@ -180,6 +181,10 @@ package org.bigbluebutton.modules.present.business
 		public function resizeSlide(e:PresenterCommands):void{
 			soService.resizeSlide(e.newSizeInPercent);
 		}
-
+	
+		public function requestContentLibraryData(e:ConlibEvent):void{
+			LogUtil.debug("received contentlibrary request event");
+			//soService.requestContentLibraryData(e);
+		}
 	}
 }

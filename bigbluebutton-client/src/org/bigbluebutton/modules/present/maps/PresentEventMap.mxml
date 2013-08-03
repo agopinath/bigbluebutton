@@ -35,6 +35,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
       import org.bigbluebutton.modules.present.events.RemovePresentationEvent;
       import org.bigbluebutton.modules.present.events.SlideEvent;
       import org.bigbluebutton.modules.present.events.UploadEvent;
+	  import org.bigbluebutton.modules.present.events.ConlibEvent;
       import org.bigbluebutton.modules.present.managers.PresentManager;
       import org.bigbluebutton.modules.present.ui.views.PresentationWindow;
 
@@ -73,6 +74,18 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		<MethodInvoker generator="{PresentProxy}" method="startUpload" arguments="{event}" />
 	</EventHandlers>
 	
+	<EventHandlers type="{ConlibEvent.OPEN_CONLIB_WINDOW}">
+		<MethodInvoker generator="{PresentManager}" method="handleOpenConlibWindow" arguments="{event}" />
+	</EventHandlers>
+	
+	<EventHandlers type="{ConlibEvent.CLOSE_CONLIB_WINDOW}">
+		<MethodInvoker generator="{PresentManager}" method="handleCloseConlibWindow"/>
+	</EventHandlers>
+	
+	<EventHandlers type="{ConlibEvent.REQUEST_CONTENT_LIBRARY}" >
+		<MethodInvoker generator="{PresentProxy}" method="requestContentLibraryData" arguments="{event}" />
+	</EventHandlers>
+
 	<EventHandlers type="{PresenterCommands.GOTO_SLIDE}" >
 		<MethodInvoker generator="{PresentProxy}" method="gotoSlide" arguments="{event}" />
 	</EventHandlers>

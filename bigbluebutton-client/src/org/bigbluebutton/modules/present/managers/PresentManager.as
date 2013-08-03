@@ -34,14 +34,17 @@ package org.bigbluebutton.modules.present.managers
 	import org.bigbluebutton.modules.present.events.QueryListOfPresentationsReplyEvent;
 	import org.bigbluebutton.modules.present.events.RemovePresentationEvent;
 	import org.bigbluebutton.modules.present.events.UploadEvent;
+	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	import org.bigbluebutton.modules.present.ui.views.FileUploadWindow;
 	import org.bigbluebutton.modules.present.ui.views.PresentationWindow;
+	import org.bigbluebutton.modules.present.ui.views.ViewContentLibraryDialog;
 	
 	public class PresentManager
 	{
 		private var globalDispatcher:Dispatcher;
 		private var uploadWindow:FileUploadWindow;
 		private var presentWindow:PresentationWindow;
+		private var conlibWindow:ViewContentLibraryDialog;
 		
 		//format: presentationNames = [{label:"00"}, {label:"11"}, {label:"22"} ];
 		[Bindable] public var presentationNames:ArrayCollection = new ArrayCollection();
@@ -82,6 +85,19 @@ package org.bigbluebutton.modules.present.managers
 		public function handleCloseUploadWindow():void{
 			PopUpManager.removePopUp(uploadWindow);
 			uploadWindow = null;
+		}
+		
+		public function handleOpenConlibWindow(e:ConlibEvent):void{
+			if (conlibWindow != null) return;
+			
+			conlibWindow = new ViewContentLibraryDialog();
+			mx.managers.PopUpManager.addPopUp(conlibWindow, presentWindow, true);
+			mx.managers.PopUpManager.centerPopUp(conlibWindow);
+		}
+		
+		public function handleCloseConlibWindow():void{
+			PopUpManager.removePopUp(conlibWindow);
+			conlibWindow = null;
 		}
 		
 		public function updatePresentationNames(e:UploadEvent):void{

@@ -87,12 +87,14 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.common.Images;
 			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.common.events.LocaleChangeEvent;
+			import org.bigbluebutton.core.UsersUtil;
 			import org.bigbluebutton.main.events.MadePresenterEvent;
 			import org.bigbluebutton.main.events.ShortcutEvent;
 			import org.bigbluebutton.main.views.MainCanvas;
 			import org.bigbluebutton.modules.present.events.AddOverlayCanvasEvent;
 			import org.bigbluebutton.modules.present.events.DisplaySlideEvent;
 			import org.bigbluebutton.modules.present.events.MoveEvent;
+			import org.bigbluebutton.modules.present.events.ConlibEvent;
 			import org.bigbluebutton.modules.present.events.NavigationEvent;
 			import org.bigbluebutton.modules.present.events.PresentationEvent;
 			import org.bigbluebutton.modules.present.events.PresenterCommands;
@@ -391,6 +393,9 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				btnSlideNum.visible = show;
 				btnFitToWidth.visible = show;
 				btnFitToPage.visible = show;
+				
+				if(UsersUtil.amIModerator())
+					openConlibBtn.visible = show;
 			}
 			
 			private function addContextMenuItems():void{
@@ -625,7 +630,12 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         }
 
 			}
-
+			
+			private function onConlibButtonClicked():void {
+				LogUtil.debug("Content library button clicked");
+				var event:ConlibEvent = new ConlibEvent(ConlibEvent.OPEN_CONLIB_WINDOW);
+				dispatchEvent(event);
+			}
 		]]>
 	</mx:Script>
   	 
@@ -637,7 +647,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	<mx:ControlBar id="presCtrlBar" name="presCtrlBar" width="100%" height="{CONTROL_BAR_HEIGHT}" styleName="presentationWindowControlsStyle" >
 		<mx:Button id="uploadPres" visible="false" height="30" styleName="presentationUploadButtonStyle"
     		toolTip="{ResourceUtil.getInstance().getString('bbb.presentation.uploadPresBtn.toolTip')}" 
-    	   	click="onUploadButtonClicked()" tabIndex="{baseIndex+5}"/>        	  
+    	   	click="onUploadButtonClicked()" tabIndex="{baseIndex+5}"/>       
+		<mx:Button id="openConlibBtn" visible="false" height="30" styleName="presentationConlibButtonStyle"
+    		toolTip="{ResourceUtil.getInstance().getString('bbb.presentation.conlibBtn.toolTip')}" 
+    	   	click="onConlibButtonClicked()"/>  			
     	<mx:Spacer width="100%" id="spacer1"/>
     	<mx:Button id="backButton" visible="false" width="45" height="30" styleName="presentationBackButtonStyle"
     		toolTip="{ResourceUtil.getInstance().getString('bbb.presentation.backBtn.toolTip')}" click="gotoPreviousSlide()"
