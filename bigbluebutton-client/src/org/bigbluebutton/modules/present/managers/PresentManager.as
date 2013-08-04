@@ -91,6 +91,7 @@ package org.bigbluebutton.modules.present.managers
 			if (conlibWindow != null) return;
 			
 			conlibWindow = new ViewContentLibraryDialog();
+			conlibWindow.conlibFileNamesAC = new ArrayCollection(e.conLibData);
 			mx.managers.PopUpManager.addPopUp(conlibWindow, presentWindow, true);
 			mx.managers.PopUpManager.centerPopUp(conlibWindow);
 		}

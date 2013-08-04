@@ -21,6 +21,7 @@ package org.bigbluebutton.conference.service.recorder.presentation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import org.bigbluebutton.conference.service.recorder.RecorderApplication;
 import org.bigbluebutton.conference.service.presentation.IPresentationRoomListener;
 import org.red5.logging.Red5LoggerFactory;
@@ -143,5 +144,9 @@ public class PresentationEventRecorder implements IPresentationRoomListener {
 		
 		recorder.record(session, event);
 	}
-
+	
+	@Override
+	public void sendContentLibraryFiles(List conlibFiles) {
+		return;
+	}
 }

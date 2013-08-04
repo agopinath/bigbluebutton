@@ -26,6 +26,7 @@ import net.jcip.annotations.ThreadSafe;import java.util.concurrent.ConcurrentHa
 import java.util.Collections;import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /**
  * Contains information about a PresentationRoom. 
  */
@@ -213,5 +214,15 @@ public class PresentationRoom {
 		return heightRatio;
 	}
 
-	
+	public void getAccessibleConlibFiles(String learnToBeUserID) {
+        log.debug("Request get conlib files from user " + learnToBeUserID);
+        List conlibFilenames = LTBContentLibraryManager.doLookup(learnToBeUserID);
+        
+        for (Iterator iter = listeners.values().iterator(); iter.hasNext();) {
+            log.debug("calling on listener");
+            IPresentationRoomListener listener = (IPresentationRoomListener) iter.next();
+            log.debug("calling removePresentation on listener " + listener.getName());
+            listener.sendContentLibraryFiles(conlibFilenames);
+        }
+    }
 }

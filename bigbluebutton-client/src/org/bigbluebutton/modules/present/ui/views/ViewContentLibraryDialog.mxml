@@ -27,9 +27,7 @@
 				creationComplete="onCreationComplete()" 
 				keyDown="onKeyDown(event)"
 				title="Content Library Manager">
-	<!--
-	<mate:Listener type="{ContentLibraryEvent.CONTENT_LIBRARY_RECEIVED}" method="handleContentLibraryFiles" />
-	-->
+				
 	<mx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -49,17 +47,6 @@
 			private function onCreationComplete():void {
 				conlibFiles.setFocus();
 				LogUtil.debug("Created Conlib window");
-				getContentLibraryFiles();
-			}
-			
-			private function getContentLibraryFiles():void {
-				LogUtil.debug("REQUESTING CONLIB FILES FROM SERVER");
-				dispatchEvent(new ConlibEvent(ConlibEvent.REQUEST_CONTENT_LIBRARY));
-			}
-			
-			private function handleContentLibraryFiles(e:ConlibEvent):void {
-				LogUtil.debug("RECEIVED CONLIB FILES FROM SERVER");
-				conlibFileNamesAC = ArrayCollection(e.conLibData);
 			}
 			
 			private function closeConlibWindow():void{

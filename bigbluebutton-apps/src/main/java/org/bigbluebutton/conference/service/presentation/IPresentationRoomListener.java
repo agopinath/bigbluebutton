@@ -19,6 +19,7 @@
 package org.bigbluebutton.conference.service.presentation;
 
 import java.util.Map;
+import java.util.List;
 
 public interface IPresentationRoomListener {
 	public String getName();
@@ -28,4 +29,5 @@ public interface IPresentationRoomListener {
 	public void removePresentation(String name);
 	public void sharePresentation(String presentationName, Boolean share);
 	public void sendCursorUpdate(Double xPercent, Double yPercent);
+	public void sendContentLibraryFiles(List conlibFiles);
 }

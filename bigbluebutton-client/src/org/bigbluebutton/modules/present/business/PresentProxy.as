@@ -184,7 +184,7 @@ package org.bigbluebutton.modules.present.business
 	
 		public function requestContentLibraryData(e:ConlibEvent):void{
 			LogUtil.debug("received contentlibrary request event");
-			//soService.requestContentLibraryData(e);
+			soService.requestContentLibraryData(e);
 		}
 	}
 }

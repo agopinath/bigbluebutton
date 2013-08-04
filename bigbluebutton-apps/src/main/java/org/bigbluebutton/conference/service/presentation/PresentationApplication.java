@@ -174,4 +174,11 @@ public class PresentationApplication {
 	public void setConnInvokerService(ConnectionInvokerService connInvokerService) {
 		this.connInvokerService = connInvokerService;
 	}	
+	
+	public void getAccessibleConlibFiles(String room, String learnToBeUserID){
+		if (roomsManager.hasRoom(room)){
+			roomsManager.getAccessibleConlibFiles(room, learnToBeUserID);			
+		} 
+		log.warn("Getting conlib files a non-existant room " + room);
+	}
 }

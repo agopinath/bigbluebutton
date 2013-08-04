@@ -20,6 +20,8 @@ package org.bigbluebutton.conference.service.presentation;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
+import org.red5.compatibility.flex.messaging.io.ArrayCollection;
 import org.bigbluebutton.conference.service.recorder.Recorder;import org.red5.server.api.so.ISharedObject;
 import org.slf4j.Logger;
 import org.red5.logging.Red5LoggerFactory;
@@ -159,6 +161,17 @@ public class PresentationEventSender implements IPresentationRoomListener {
 		list.add(heightRatio);
 		so.sendMessage("moveCallback", list);
 	}
-
 	
+	@Override
+	public void sendContentLibraryFiles(List fileNames) {
+		log.debug("calling sendconlibfilenames");
+		System.out.println("calling sendconlibfilenames");
+		List list = new ArrayCollection();
+		list.add(fileNames.toArray());
+		
+		for(Object s: fileNames) {
+			log.debug("C@Sending... " + s.toString());	
+		}
+		so.sendMessage("requestContentLibraryDataCallback", list);
+	}
 }

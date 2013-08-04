@@ -116,4 +116,11 @@ public class PresentationService {
 		log.debug("Setting Presentation Applications");
 		presentationApplication = a;
 	}
+	
+	public void getConlibFiles(String learnToBeUserID) {
+		log.debug("C@Request to access content library from " + learnToBeUserID);
+		System.out.println("Request to access content library from " + learnToBeUserID);
+		IScope scope = Red5.getConnectionLocal().getScope();
+		presentationApplication.getAccessibleConlibFiles(scope.getName(), learnToBeUserID);
+	}
 }

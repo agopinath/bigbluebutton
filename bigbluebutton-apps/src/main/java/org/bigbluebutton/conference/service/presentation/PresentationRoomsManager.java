@@ -191,5 +191,12 @@ public class PresentationRoomsManager {
         	log.warn("Removing presentation from a non-existing room " + room);
         }
     }
-
+	
+	public void getAccessibleConlibFiles(String room, String learnToBeUserID){
+		PresentationRoom r = getRoom(room);
+		if (r != null) {
+			r.getAccessibleConlibFiles(learnToBeUserID);			
+		}	
+		log.warn("Getting conlib files from a non-existing room " + room);
+	}
 }

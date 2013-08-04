@@ -393,9 +393,12 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				btnSlideNum.visible = show;
 				btnFitToWidth.visible = show;
 				btnFitToPage.visible = show;
-				
+				LogUtil.debug("@@AM I MODERATOR " + UsersUtil.amIModerator());
+				LogUtil.debug("@@AM I PRESENTER " + UsersUtil.amIPresenter());
+				LogUtil.debug("@@Is conlibbtn showing " + openConlibBtn.visible);
 				if(UsersUtil.amIModerator())
 					openConlibBtn.visible = show;
+				LogUtil.debug("@@Is conlibbtn showing now " + openConlibBtn.visible);
 			}
 			
 			private function addContextMenuItems():void{
@@ -632,9 +635,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 			
 			private function onConlibButtonClicked():void {
-				LogUtil.debug("Content library button clicked");
-				var event:ConlibEvent = new ConlibEvent(ConlibEvent.OPEN_CONLIB_WINDOW);
-				dispatchEvent(event);
+				LogUtil.debug("Content library button clicked!");
+				LogUtil.debug("REQUESTING CONLIB FILES FROM SERVER");
+				var e:ConlibEvent = new ConlibEvent(ConlibEvent.REQUEST_CONTENT_LIBRARY);
+				dispatchEvent(e);
 			}
 		]]>
 	</mx:Script>

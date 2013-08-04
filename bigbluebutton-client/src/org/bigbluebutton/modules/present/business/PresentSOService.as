@@ -676,7 +676,8 @@ package org.bigbluebutton.modules.present.business {
 		
 		public function requestContentLibraryData(e:ConlibEvent):void {
 			LogUtil.debug("Sending request content library event");
-			nc.call( "presentation.getAccessibleConlibFiles",// Remote function name
+			var conlibUser:String = "ajay";
+			nc.call( "presentation.getConlibFiles",// Remote function name
 				new Responder(
 					// participants - On successful result
 					function(result:Object):void { 	
@@ -692,7 +693,7 @@ package org.bigbluebutton.modules.present.business {
 						} 
 					}
 				), //new Responder
-				33//LearnToBeAccountManager.getInstance().getLearnToBeUserID()
+				conlibUser//LearnToBeAccountManager.getInstance().getLearnToBeUserID()
 			); //_netConnection.call
 		}
 		
@@ -704,17 +705,10 @@ package org.bigbluebutton.modules.present.business {
 			for(var i:int = 0; i < data.length; i++) {
 				LogUtil.debug("received file: " + data[i]);
 			}
-		}
-		
-		public function handleReceivedContentLibraryData(conlibData:Object):void {
-			var tempData:Array = new Array();
-			for(var key in conlibData) {
-				LogUtil.debug("Got file: " + key);
-				tempData.push(key);
-			}
-			var e:ConlibEvent = new ConlibEvent(ConlibEvent.CONTENT_LIBRARY_RECEIVED);
-			e.conLibData = tempData;
-			dispatcher.dispatchEvent(e);
+			
+			var event:ConlibEvent = new ConlibEvent(ConlibEvent.OPEN_CONLIB_WINDOW);
+			event.conLibData = data;
+			dispatcher.dispatchEvent(event);
 		}
 	}
 }

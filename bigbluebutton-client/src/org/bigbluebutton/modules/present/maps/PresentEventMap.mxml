@@ -85,7 +85,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	<EventHandlers type="{ConlibEvent.REQUEST_CONTENT_LIBRARY}" >
 		<MethodInvoker generator="{PresentProxy}" method="requestContentLibraryData" arguments="{event}" />
 	</EventHandlers>
-
+	
 	<EventHandlers type="{PresenterCommands.GOTO_SLIDE}" >
 		<MethodInvoker generator="{PresentProxy}" method="gotoSlide" arguments="{event}" />
 	</EventHandlers>
