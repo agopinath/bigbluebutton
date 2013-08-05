@@ -20,6 +20,9 @@ package org.bigbluebutton.modules.present.managers
 {
 	import com.asfusion.mate.events.Dispatcher;
 	
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+	
 	import mx.collections.ArrayCollection;
 	import mx.managers.PopUpManager;
 	
@@ -139,6 +142,14 @@ package org.bigbluebutton.modules.present.managers
 					readyEvent.presentationName = e.conlibPresnameToGet;
 					LogUtil.debug("LOADING CONLIB DOC LOCALLY: " + e.conlibPresnameToGet);
 					globalDispatcher.dispatchEvent(readyEvent);
+					
+					// Wait 4 seconds before closing the content library dialog as the document loads
+					globalDispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CONVERT_START));
+					var timer:Timer = new Timer(4000, 1);
+					timer.addEventListener(TimerEvent.TIMER, function():void {
+												handleCloseConlibWindow();
+											});
+					timer.start();
 					return;
 				}
 			}
@@ -148,7 +159,6 @@ package org.bigbluebutton.modules.present.managers
 			getFromServerEvt.conlibFilenameToGet = e.conlibFilenameToGet;
 			getFromServerEvt.conlibPresnameToGet = e.conlibPresnameToGet;
 			LogUtil.debug("LOADING CONLIB DOC FROM SERVER: " + e.conlibPresnameToGet);
-			handleCloseConlibWindow();
 			globalDispatcher.dispatchEvent(getFromServerEvt);
 		}
 	}

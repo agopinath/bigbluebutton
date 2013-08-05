@@ -82,7 +82,7 @@
 			private function conlibConvertStart(e:ConlibEvent):void {
 				if(!progressBar.visible) {
 					progressBar.visible = true;
-					progressBar.label = "Please wait while the document is converted..."
+					progressBar.label = "Please wait while the document is prepared..."
 					this.height = 100;
 					conlibFiles.enabled = false;
 					showButton.enabled = false;
