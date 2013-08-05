@@ -18,8 +18,8 @@ public final class LTBContentLibraryManager {
 	private static final String CONFIG_DELIMITER = ":";
 	private static final String CONFIG_FILENAME_DELIMITER = ",";
 	private static final String CONFIG_ALL_CATEGORY = "all";
-	private static final File CONLIB_ROOT = new File("/usr/local/share/Dropbox/content-library");
-	private static final File CONLIB_CONFIG = new File("/usr/local/share/Dropbox/content-library-conf/conf.txt");
+	private static final File CONLIB_ROOT = new File("/var/www/bigbluebutton-default/Dropbox/content-library");
+	private static final File CONLIB_CONFIG = new File("/var/www/bigbluebutton-default/Dropbox/content-library-conf/conf.txt");
 	
 	// prevent instantiation
 	private LTBContentLibraryManager() {}
