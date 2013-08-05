@@ -73,7 +73,7 @@ public final class LTBContentLibraryManager {
 		List<String> allAccessibleFiles = new ArrayList();
 
 		try {
-			configScanner = new Scanner(config);
+			configScanner = new Scanner(config, "UTF-8");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -105,6 +105,10 @@ public final class LTBContentLibraryManager {
 			log.debug("C@accessibleFiles for user: " + conlibRoot.getAbsolutePath() + "/" + allAccessibleFiles.get(i));
 		}
 
+		try {
+			configScanner.close();
+		catch(IOException e) {e.printStackTrace}
+		
 		return accessibleFiles;
 	}
 
