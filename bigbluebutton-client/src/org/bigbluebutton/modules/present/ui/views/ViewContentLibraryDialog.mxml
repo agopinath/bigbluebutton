@@ -10,11 +10,11 @@
   Foundation; either version 2.1 of the License, or (at your option) any later 
   version. 
   
+  You should have received a copy of the GNU Lesser General Public License along 
   BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY 
   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
   PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
   
-  You should have received a copy of the GNU Lesser General Public License along 
   with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  
   $Id: $
@@ -22,12 +22,18 @@
 
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
 				xmlns:mate="http://mate.asfusion.com/"
-				width="350" height="90" 
+				width="475" height="80" 
 				layout="horizontal" 
 				creationComplete="onCreationComplete()" 
 				keyDown="onKeyDown(event)"
-				title="Content Library Manager">
-				
+				title="Content Library Manager"
+				visible="false">
+	
+	<mate:Listener type="{ConlibEvent.CONVERT_START}" method="conlibConvertStart" />
+	<mate:Listener type="{UploadEvent.CONVERT_SUCCESS}" method="conlibConvertSuccess" />
+    <mate:Listener type="{UploadEvent.CONVERT_UPDATE}" method="conlibConvertUpdate" />
+	<mate:Listener type="{UploadEvent.CONVERT_ERROR}" method="conlibConvertError" />
+		
 	<mx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -37,6 +43,8 @@
 			
 			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.modules.present.events.ConlibEvent;
+			import org.bigbluebutton.modules.present.events.UploadEvent;
+			import org.bigbluebutton.util.i18n.ResourceUtil;
 			
 			[Bindable] public var conlibFileNamesAC:ArrayCollection;
 			
@@ -57,25 +65,62 @@
 			
 			private function onCreationComplete():void {
 				conlibFiles.setFocus();
+				vstack.removeChild(progressBar);
+				this.visible = true;
 				LogUtil.debug("Created Conlib window");
 			}
 			
-			private function closeConlibWindow():void{
-				LogUtil.debug("Content library button cancel clicked");
+			private function closeConlibWindow():void {
+				LogUtil.debug("Content library dialog is closing...");
 				var event:ConlibEvent = new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW);
 				dispatchEvent(event);
 			}
 			
-			private function onKeyDown(e:KeyboardEvent):void{
+			private function onKeyDown(e:KeyboardEvent):void {
 				if (e.keyCode == Keyboard.ENTER){
 					shareContentLibraryDocument();
 				}
 			}
+			
+			private function conlibConvertStart(e:ConlibEvent):void {
+				if(!progressBar.visible) {
+					progressBar.visible = true;
+					progressBar.label = "Please wait while the document is converted..."
+					this.height = 100;
+					conlibFiles.enabled = false;
+					showButton.enabled = false;
+					vstack.addChild(progressBar);
+				}				
+			}
+			
+			private function conlibConvertUpdate(e:UploadEvent):void {
+				progressBar.label = ResourceUtil.getInstance().getString('bbb.presentation.converted',[e.completedSlides, e.totalSlides]);
+				progressBar.setProgress(e.completedSlides, e.totalSlides);
+				progressBar.validateNow();
+			}
+
+		  private function conlibConvertError(e:UploadEvent):void {
+				conlibFiles.enabled = false;
+				showButton.enabled = false;
+				progressBar.label = "Error while converting content library document.";
+				progressBar.setProgress(0, 100);
+				progressBar.validateNow();
+		  }
+		  
+		  private function conlibConvertSuccess(e:UploadEvent):void {
+				progressBar.label = "Conversion of content library document was successful!"
+				closeConlibWindow();
+		  }
 		]]>
 	</mx:Script>
-
-	<mx:ComboBox id="conlibFiles" width="125" dataProvider="{conlibFileNamesAC}" itemRenderer="mx.controls.Label"/>
-	<mx:Button id="okButton" click="shareContentLibraryDocument()" label="Show" />
-	<mx:Button id="closeButton" click="closeConlibWindow()" label="Cancel" />
-	
+	<mx:VBox id="vstack">
+		<mx:HBox>
+			<mx:ComboBox id="conlibFiles" width="300" dataProvider="{conlibFileNamesAC}" itemRenderer="mx.controls.Label"/>
+			<mx:Button id="showButton" click="shareContentLibraryDocument()" label="Show" height="22"/>
+			<mx:Button id="closeButton" click="closeConlibWindow()" label="Cancel" height="22"/>
+		</mx:HBox>
+		<mx:ProgressBar id="progressBar" mode="manual" label="{ResourceUtil.getInstance().getString('bbb.fileupload.progBarLbl')}"
+						  styleName="presentationUploadProgressBarStyle"
+						  labelPlacement="center" width="440" visible="false"/> 
+	</mx:VBox>
 </mx:TitleWindow>

@@ -55,8 +55,8 @@ package org.bigbluebutton.modules.present.business
 			LogUtil.debug("get conlib document step 5");
 			loader.load(request);
 			LogUtil.debug("get conlib document SENT REQUEST SUCCESSFULLY");
-
-			dispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW));
+			
+			dispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CONVERT_START));
 		}
 		
 		private function onGetConlibComplete(event:Event):void {
