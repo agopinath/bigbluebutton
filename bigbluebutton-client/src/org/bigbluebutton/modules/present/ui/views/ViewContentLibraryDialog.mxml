@@ -51,16 +51,13 @@
 			private function shareContentLibraryDocument():void {
 				LogUtil.debug("GOT OKAY CLICK FROM CONLIB DIALOG - SELECTED FILE: " + conlibFiles.selectedLabel);
 				
-				var e:ConlibEvent = new ConlibEvent(ConlibEvent.GET_DOCUMENT_ON_SERVER);
+				var e:ConlibEvent = new ConlibEvent(ConlibEvent.OPEN_CONLIB_DOCUMENT);
 				e.conlibFilenameToGet = conlibFiles.selectedLabel;
 				e.conlibPresnameToGet = conlibFiles.selectedLabel.substr(
 											conlibFiles.selectedLabel.lastIndexOf("/")+1,
 											conlibFiles.selectedLabel.lastIndexOf(".")
 										);
-				LogUtil.debug("SELECTED CONLIB PRESNAME: " + e.conlibPresnameToGet);
 				dispatchEvent(e);
-				
-				LogUtil.debug("getting selected conlib document from server...");
 			}
 			
 			private function onCreationComplete():void {

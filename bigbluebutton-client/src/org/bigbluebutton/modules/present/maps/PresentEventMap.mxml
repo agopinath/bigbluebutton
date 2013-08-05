@@ -82,6 +82,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		<MethodInvoker generator="{PresentManager}" method="handleCloseConlibWindow"/>
 	</EventHandlers>
 	
+	<EventHandlers type="{ConlibEvent.OPEN_CONLIB_DOCUMENT}" >
+		<MethodInvoker generator="{PresentManager}" method="openConlibDocument" arguments="{event}" />
+	</EventHandlers>
+	
 	<EventHandlers type="{ConlibEvent.REQUEST_CONTENT_LIBRARY}" >
 		<MethodInvoker generator="{PresentProxy}" method="requestContentLibraryData" arguments="{event}" />
 	</EventHandlers>

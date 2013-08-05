@@ -5,6 +5,7 @@ package org.bigbluebutton.modules.present.events
 	
 	public class ConlibEvent extends Event {
 		public static const OPEN_CONLIB_WINDOW:String = "OPEN_CONLIB_WINDOW";
+		public static const OPEN_CONLIB_DOCUMENT:String = "OPEN_CONLIB_DOCUMENT";
     	public static const CLOSE_CONLIB_WINDOW:String = "CLOSE_CONLIB_WINDOW";
 		public static const REQUEST_CONTENT_LIBRARY:String = "REQUEST_CONLIB";
 		public static const GET_DOCUMENT_ON_SERVER:String = "GET_DOCUMENT_ON_SERVER";

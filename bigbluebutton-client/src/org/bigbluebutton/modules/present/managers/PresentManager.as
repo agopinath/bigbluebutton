@@ -111,23 +111,45 @@ package org.bigbluebutton.modules.present.managers
 
 		public function removePresentation(e:RemovePresentationEvent):void {
 			LogUtil.debug("Removing presentation " + e.presentationName);
-      var p:String;
+			var p:String;
       
-      for (var i:int = 0; i < presentationNames.length; i++) {
-        p = presentationNames.getItemAt(i) as String;
-        if (p == e.presentationName) {
-          presentationNames.removeItemAt(i);
-        }
-      }
+			for (var i:int = 0; i < presentationNames.length; i++) {
+				p = presentationNames.getItemAt(i) as String;
+				if (p == e.presentationName) {
+					presentationNames.removeItemAt(i);
+				}
+			}
 		}
     
-    public function queryPresentations():void {
-      var pArray:Array = new Array();
-      pArray = presentationNames.toArray();
-      
-      var qEvent:QueryListOfPresentationsReplyEvent = new QueryListOfPresentationsReplyEvent();
-      qEvent.presentations = pArray;
-      globalDispatcher.dispatchEvent(qEvent);
-    }
+		public function queryPresentations():void {
+			var pArray:Array = new Array();
+			pArray = presentationNames.toArray();
+			
+			var qEvent:QueryListOfPresentationsReplyEvent = new QueryListOfPresentationsReplyEvent();
+			qEvent.presentations = pArray;
+			globalDispatcher.dispatchEvent(qEvent);
+		}
+		
+		public function openConlibDocument(e:ConlibEvent):void {
+			// First check if the document to open has already been converted and loaded.
+			// If so, load it directly instead of reconverting it again.
+			for (var i:int = 0; i < presentationNames.length; i++) {
+				if ((presentationNames.getItemAt(i) as String) == e.conlibPresnameToGet) {
+					var readyEvent:UploadEvent = new UploadEvent(UploadEvent.PRESENTATION_READY);
+					readyEvent.presentationName = e.conlibPresnameToGet;
+					LogUtil.debug("LOADING CONLIB DOC LOCALLY: " + e.conlibPresnameToGet);
+					globalDispatcher.dispatchEvent(readyEvent);
+					return;
+				}
+			}
+			
+			// If the document has not already been loaded once, load it from the content library
+			var getFromServerEvt:ConlibEvent = new ConlibEvent(ConlibEvent.GET_DOCUMENT_ON_SERVER);
+			getFromServerEvt.conlibFilenameToGet = e.conlibFilenameToGet;
+			getFromServerEvt.conlibPresnameToGet = e.conlibPresnameToGet;
+			LogUtil.debug("LOADING CONLIB DOC FROM SERVER: " + e.conlibPresnameToGet);
+			handleCloseConlibWindow();
+			globalDispatcher.dispatchEvent(getFromServerEvt);
+		}
 	}
 }
