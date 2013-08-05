@@ -63,7 +63,7 @@
 		]]>
 	</mx:Script>
 
-	<mx:ComboBox id="conlibFiles" width="125" dataProvider="{conlibFileNamesAC}"/>
+	<mx:ComboBox id="conlibFiles" width="125" dataProvider="{conlibFileNamesAC}" itemRenderer="mx.controls.Label"/>
 	<mx:Button id="okButton" click="shareContentLibraryDocument()" label="Show" />
 	<mx:Button id="closeButton" click="closeConlibWindow()" label="Cancel" />
 	
