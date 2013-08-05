@@ -51,6 +51,7 @@ package org.bigbluebutton.modules.present.business
 		private var soService:PresentSOService;
 		private var uploadService:FileUploadService;
 		private var slides:PresentationSlides;
+		private var conlibService:ConlibService;
 		
 		public function PresentProxy(){
 			slides = new PresentationSlides();
@@ -185,6 +186,14 @@ package org.bigbluebutton.modules.present.business
 		public function requestContentLibraryData(e:ConlibEvent):void{
 			LogUtil.debug("received contentlibrary request event");
 			soService.requestContentLibraryData(e);
+		}
+		
+		public function getConlibDocument(e:ConlibEvent):void {
+			LogUtil.debug("PRESENT PROXY: starting conlib service... with host: " + host);
+			if (conlibService == null) 
+				conlibService = new ConlibService(host + "/bigbluebutton/presentation/process-conlib-file", conference, room);
+			LogUtil.debug("PRESENT PROXY: getting conlib document... from url " + host + "/bigbluebutton/presentation/process-conlib-file");
+			conlibService.getConlibDocument(e.conlibFilenameToGet, e.conlibPresnameToGet);
 		}
 	}
 }

@@ -86,6 +86,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		<MethodInvoker generator="{PresentProxy}" method="requestContentLibraryData" arguments="{event}" />
 	</EventHandlers>
 	
+	<EventHandlers type="{ConlibEvent.GET_DOCUMENT_ON_SERVER}" >
+		<MethodInvoker generator="{PresentProxy}" method="getConlibDocument"  arguments="{event}"/>
+	</EventHandlers>
+	
 	<EventHandlers type="{PresenterCommands.GOTO_SLIDE}" >
 		<MethodInvoker generator="{PresentProxy}" method="gotoSlide" arguments="{event}" />
 	</EventHandlers>
@@ -137,7 +141,4 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	<EventHandlers type="{SlideEvent.LOAD_CURRENT_SLIDE}" >
 		<MethodInvoker generator="{PresentProxy}" method="loadCurrentSlideLocally" arguments="{event}" />
 	</EventHandlers>
-	
-	
-		
 </EventMap>

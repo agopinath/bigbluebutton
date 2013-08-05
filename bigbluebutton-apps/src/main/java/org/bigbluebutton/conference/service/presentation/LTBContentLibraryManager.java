@@ -61,7 +61,7 @@ public final class LTBContentLibraryManager {
 				String filenamePath = f.getAbsoluteFile().toString();
 				if(filenamePath.substring(filenamePath.lastIndexOf("/")+1).trim().startsWith("."))
 					continue;
-				String relativeName = filenamePath.substring(CONLIB_ROOT.toString().length());
+				String relativeName = filenamePath.substring(CONLIB_ROOT.toString().length()+1);
 				toPopulate.add(relativeName);
                 log.debug("File: " + f.getAbsoluteFile());
             }
@@ -107,7 +107,9 @@ public final class LTBContentLibraryManager {
 
 		try {
 			configScanner.close();
-		catch(IOException e) {e.printStackTrace}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		return accessibleFiles;
 	}

@@ -33,6 +33,7 @@ class PresentationService {
 	def testPresentationName
 	def testUploadedPresentation
 	def defaultUploadedPresentation
+	def defaultContentLibraryFolder
 	
     def deletePresentation = {conf, room, filename ->
     		def directory = new File(roomDirectory(conf, room).absolutePath + File.separatorChar + filename)
