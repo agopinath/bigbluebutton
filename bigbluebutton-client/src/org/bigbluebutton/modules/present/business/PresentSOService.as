@@ -27,6 +27,7 @@ package org.bigbluebutton.modules.present.business {
 	import flash.net.SharedObject;
 	import org.bigbluebutton.common.LogUtil;
 	import org.bigbluebutton.core.managers.UserManager;
+	import org.bigbluebutton.core.UsersUtil;
 	import org.bigbluebutton.main.events.BBBEvent;
 	import org.bigbluebutton.main.events.MadePresenterEvent;
 	import org.bigbluebutton.main.model.users.BBBUser;
@@ -698,9 +699,15 @@ package org.bigbluebutton.modules.present.business {
 		}
 		
 		public function requestContentLibraryDataCallback(data:Array):void {
-			if(data == null || data.length == 0) LogUtil.debug("data empty");
-			LogUtil.debug("SUCCESSFULLY RECEIVED CONTENT LIBRARY DATA!!!!!!!!!!!!! HAS FILES");
-			//LogUtil.debug(data.toArray());
+			if(data == null || data.length == 0) {
+				LogUtil.debug("data empty");
+				return;
+			} else if(!UsersUtil.amIPresenter()) {
+				LogUtil.debug("Got conlib data but not presenter!")
+				return;
+			}
+			
+			LogUtil.debug("SUCCESSFULLY RECEIVED CONTENT LIBRARY DATA");
 			LogUtil.debug("Received contents: " + data.toString());
 			for(var i:int = 0; i < data.length; i++) {
 				LogUtil.debug("received file: " + data[i]);
