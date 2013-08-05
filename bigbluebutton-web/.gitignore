@@ -5,5 +5,4 @@ lib
 web-app/demo/bbb_api_conf.jsp
 target
 plugins/*
-grails-app/conf/bigbluebutton.properties
 
