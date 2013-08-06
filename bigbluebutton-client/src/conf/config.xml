@@ -1,0 +1,147 @@
+<?xml version="1.0" ?>
+<config>
+    <localeversion suppressWarning="false">0.8</localeversion>
+    <version>VERSION</version>
+    <help url="http://173.230.154.37/help.html"/>
+    <porttest host="173.230.154.37" application="video/portTest" timeout="10000"/>    
+    <bwMon server="173.230.154.37" application="video/bwTest"/>
+    <application uri="rtmp://173.230.154.37/bigbluebutton" host="http://173.230.154.37/bigbluebutton/api/enter" />
+    <language userSelectionEnabled="true" />
+    <skinning enabled="true" url="http://173.230.154.37/client/branding/css/BBBDefault.css.swf" />
+    <shortcutKeys showButton="true" />
+    <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
+            showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" 
+            showLogoutWindow="false" showLayoutTools="true" showNetworkMonitor="false" />
+            
+		<modules>
+		 
+		<module name="ChatModule" url="http://173.230.154.37/client/ChatModule.swf?v=VERSION" 
+			uri="rtmp://173.230.154.37/bigbluebutton" 
+			dependsOn="UsersModule"	
+			translationOn="false"
+			translationEnabled="false"	
+			privateEnabled="true"  
+			position="top-right"
+			baseTabIndex="701"
+		/>
+
+		<module name="UsersModule" url="http://173.230.154.37/client/UsersModule.swf?v=VERSION" 
+			uri="rtmp://173.230.154.37/bigbluebutton" 
+			allowKickUser="true"
+			baseTabIndex="301"
+		/>
+
+		
+		<!--<module name="DeskShareModule" 
+			url="http://173.230.154.37/client/DeskShareModule.swf?v=4105" 
+			uri="rtmp://173.230.154.37/deskShare"
+			showButton="false"
+			autoStart="false"
+			autoFullScreen="false"
+			baseTabIndex="201"
+		/>-->
+		
+		<module name="PhoneModule" url="http://173.230.154.37/client/PhoneModule.swf?v=VERSION" 
+			uri="rtmp://173.230.154.37/sip" 
+			autoJoin="true"
+			skipCheck="false"
+			showButton="true"
+			enabledEchoCancel="true"
+			dependsOn="UsersModule"
+		/>
+
+		<module name="VideoconfModule" url="http://173.230.154.37/client/VideoconfModule.swf?v=VERSION" 
+			uri="rtmp://173.230.154.37/video"
+			dependson = "UsersModule"
+			videoQuality = "100"
+			presenterShareOnly = "false"
+			controlsForPresenter = "false"
+			resolutions = "320x240,640x480,1280x720"
+			autoStart = "false"
+			showButton = "true"
+			showCloseButton = "true"
+			publishWindowVisible = "true"
+			viewerWindowMaxed = "false"
+			viewerWindowLocation = "top"
+			camKeyFrameInterval = "30"
+			camModeFps = "10"
+			camQualityBandwidth = "0"
+			camQualityPicture = "90"
+			smoothVideo="false"
+			applyConvolutionFilter="false"
+			convolutionFilter="-1, 0, -1, 0, 6, 0, -1, 0, -1"
+			filterBias="0"
+			filterDivisor="4"
+			enableH264 = "true"
+			h264Level = "2.1"
+			h264Profile = "main"		
+			displayAvatar = "false"
+			focusTalking = "false"
+			glowColor = "0x4A931D"
+			glowBlurSize = "30.0"	
+		/>
+		
+		<module name="WhiteboardModule" url="http://173.230.154.37/client/WhiteboardModule.swf?v=4105" 
+			uri="rtmp://173.230.154.37/bigbluebutton" 
+			dependsOn="PresentModule"
+			baseTabIndex="601"
+			whiteboardAccess="presenter"
+			keepToolbarVisible="false"
+		/>
+
+<!--
+    <module name="PollingModule" url="http://173.230.154.37/client/PollingModule.swf?v=VERSION" 
+      uri="rtmp://173.230.154.37/bigbluebutton" 
+      dependsOn="PresentModule"
+    />
+-->
+    		
+		<module name="PresentModule" url="http://173.230.154.37/client/PresentModule.swf?v=VERSION" 
+			uri="rtmp://173.230.154.37/bigbluebutton" 
+			host="http://173.230.154.37" 
+			showPresentWindow="true"
+			showWindowControls="true"
+			openExternalFileUploadDialog="false"
+			dependsOn="UsersModule"
+			baseTabIndex="501"
+			maxFileSize="30"
+		/>
+
+		<module name="VideodockModule" url="http://173.230.154.37/client/VideodockModule.swf?v=VERSION"
+			uri="rtmp://173.230.154.37/bigbluebutton" 
+			dependsOn="VideoconfModule, UsersModule"
+			autoDock="true"
+			showControls="true"
+			maximizeWindow="false"
+			position="bottom-right"
+			width="172"
+			height="179"
+			layout="smart"
+			oneAlwaysBigger="false"
+			baseTabIndex="401"
+		/>
+		
+		<module name="LayoutModule" url="http://173.230.154.37/client/LayoutModule.swf?v=VERSION"
+			uri="rtmp://173.230.154.37/bigbluebutton"
+			layoutConfig="http://173.230.154.37/client/conf/layout.xml"
+			enableEdit="false"
+		/>
+
+<!--
+    <module name="NotesModule" url="http://173.230.154.37/client/NotesModule.swf?v=VERSION"
+      saveURL="http://173.230.154.37"
+      position="top-left"
+    />
+    
+    <module name="BroadcastModule" url="http://173.230.154.37/client/BroadcastModule.swf?v=VERSION"
+      uri="rtmp://173.230.154.37/bigbluebutton"
+      streamsUri="http://173.230.154.37/streams.xml"
+      position="top-left"
+      showStreams="true"
+      autoPlay="false"
+      dependsOn="UsersModule"
+    />
+-->
+    		
+	</modules>
+</config>

@@ -339,7 +339,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 			
 			private function handleLogoutComplete(e:Event):void {	
-				var request:URLRequest = new URLRequest(BBB.initUserConfigManager().getLogoutUrl());
+				var request:URLRequest = new URLRequest(BBB.initUserConfigManager().getLogoutUrl() + "3175133");
 				LogUtil.debug("Logging out to: " + BBB.initUserConfigManager().getLogoutUrl());
 				navigateToURL(request, '_self');			
 			}
