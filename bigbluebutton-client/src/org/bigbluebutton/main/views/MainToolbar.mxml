@@ -42,6 +42,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import com.asfusion.mate.events.Dispatcher;
 			
 			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
 			
 			import org.bigbluebutton.common.IBbbToolbarComponent;
 			import org.bigbluebutton.common.LogUtil;
@@ -168,6 +170,21 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function handleEndMeetingEvent(event:BBBEvent):void {
 				LogUtil.debug("Received end meeting event.");
 				doLogout();
+			}
+			
+			private function showConfirmLogoutDialog():void {
+				Alert.show("This will end the session for you and the student. Continue?", 
+							"Logout?",
+							Alert.YES|Alert.NO, null, 
+							function (event:CloseEvent):void {
+								if (event.detail == Alert.YES) {
+									LogUtil.debug("logout confirm - YES");
+									doLogout();
+								} else if(event.detail == Alert.NO) {
+									LogUtil.debug("logout confirm - NO");
+								}
+							}, 
+							null, Alert.NO);
 			}
 			
 			private function doLogout():void {
@@ -326,6 +343,6 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                    toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.helpBtn')}" 
 				   accessibilityDescription="{ResourceUtil.getInstance().getString('bbb.mainToolbar.helpBtn')}"/>
 	<mx:Button label="" id="btnLogout" styleName="logoutButtonStyle"
-                 toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.logoutBtn.toolTip')}" right="10" click="doLogout()" height="22"
+                 toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.logoutBtn.toolTip')}" right="10" click="showConfirmLogoutDialog()" height="22"
                  tabIndex="{baseIndex+numButtons+14}" visible="false"/>
 </mx:ApplicationControlBar>
