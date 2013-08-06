@@ -234,7 +234,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 						
 			private function gotConfigParameters(e:ConfigEvent):void{
-				langSelector.visible = e.config.languageEnabled;
+				//langSelector.visible = e.config.languageEnabled;
 				shortcutKeysBtn.includeInLayout = shortcutKeysBtn.visible = e.config.shortcutKeysShowButton; 
 				DEFAULT_HELP_URL = e.config.helpURL;
 			}
@@ -297,10 +297,12 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	<mx:Spacer width="50%"/>
     <mx:Label id="meetingNameLbl" styleName="meetingNameLabelStyle" />
     <mx:Spacer width="50%"/>
+<!--
 	<views:LanguageSelector id="langSelector" 
 							visible="false" 
 							tabIndex="{baseIndex+numButtons+11}"
 							accessibilityName="{ResourceUtil.getInstance().getString('bbb.mainToolbar.langSelector')}"/>
+-->
 <!--
   <mx:Button label="DISCONNECT!" click="BBB.initConnectionManager().forceClose()" height="22" toolTip="Click to simulate disconnection" />
 -->
