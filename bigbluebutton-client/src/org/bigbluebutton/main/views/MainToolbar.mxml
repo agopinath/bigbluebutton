@@ -35,6 +35,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	<mate:Listener type="{ShortcutEvent.LOGOUT}" method="remoteLogout" />
 	<mate:Listener type="{ShortcutEvent.FOCUS_SHORTCUT_BUTTON}" method="focusShortcutButton" />
 	<mate:Listener type="{ConferenceCreatedEvent.CONFERENCE_CREATED_EVENT}" method="retrieveMeetingName" />
+	<mate:Listener type="{UserJoinedEvent.JOINED}" method="handleUserJoined" />
 	
 	<mx:Script>
 		<![CDATA[
@@ -48,6 +49,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.common.events.OpenWindowEvent;
 			import org.bigbluebutton.common.events.ToolbarButtonEvent;
 			import org.bigbluebutton.core.BBB;
+			import org.bigbluebutton.core.UsersUtil;
 			import org.bigbluebutton.core.services.BandwidthMonitor;
 			import org.bigbluebutton.main.events.BBBEvent;
 			import org.bigbluebutton.main.events.ConfigEvent;
@@ -55,6 +57,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.main.events.SettingsEvent;
 			import org.bigbluebutton.main.events.ShortcutEvent;
 			import org.bigbluebutton.main.events.SuccessfulLoginEvent;
+			import org.bigbluebutton.main.events.UserJoinedEvent;
 			import org.bigbluebutton.main.model.LayoutOptions;
 			import org.bigbluebutton.main.model.users.events.ConferenceCreatedEvent;
 			import org.bigbluebutton.main.model.users.events.ConnectionFailedEvent;
@@ -95,7 +98,6 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 var timer:Timer = new Timer(3000, 1);
                 timer.addEventListener(TimerEvent.TIMER, checkAccessiblity);
                 timer.start();
-
 			}
             private function checkAccessiblity(e:TimerEvent):void {
                 // remove the quick links if there's no screen reader active
@@ -274,7 +276,16 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function focusShortcutButton(e:ShortcutEvent):void{
 				shortcutKeysBtn.setFocus();
 			}
-
+			
+			public function handleUserJoined(e:UserJoinedEvent):void {
+				if(UsersUtil.isMe(e.userID)) {
+					if(UsersUtil.amIModerator()) {
+						btnLogout.visible = true;
+					} else {
+						this.removeChild(btnLogout);
+					}
+				}
+			}
 		]]>
 	</mx:Script>
     <mx:HBox id="quickLinks" width="1" includeInLayout="false">
@@ -316,5 +327,5 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				   accessibilityDescription="{ResourceUtil.getInstance().getString('bbb.mainToolbar.helpBtn')}"/>
 	<mx:Button label="" id="btnLogout" styleName="logoutButtonStyle"
                  toolTip="{ResourceUtil.getInstance().getString('bbb.mainToolbar.logoutBtn.toolTip')}" right="10" click="doLogout()" height="22"
-                 tabIndex="{baseIndex+numButtons+14}" />
+                 tabIndex="{baseIndex+numButtons+14}" visible="false"/>
 </mx:ApplicationControlBar>
