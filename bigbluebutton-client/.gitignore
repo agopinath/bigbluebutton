@@ -8,3 +8,4 @@ bbbResources.properties.*
 asdoc/
 hs_err_pid*
 html-templateBackup/
+nohup.out

@@ -8,7 +8,9 @@ package org.bigbluebutton.modules.present.business
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
-
+	import mx.events.CloseEvent;
+	import mx.controls.Alert;
+	
 	import org.bigbluebutton.common.LogUtil;
 	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	import org.bigbluebutton.modules.present.events.UploadEvent;
@@ -62,11 +64,15 @@ package org.bigbluebutton.modules.present.business
 		private function onGetConlibComplete(event:Event):void {
 			LogUtil.debug("SUCCESSFULLY DID POST ON GET CONLIB DOCUMENT: " + event.toString());
 		}
-
+		
 		private function onGetConlibIoError(event:IOErrorEvent):void {
 			LogUtil.debug("An error occured while trying to get the conlib document. " + event.toString()); 
 			LogUtil.debug("NOTE: If the above error occurs even if the the command reports having succeded " + 
 						  "on the server, then it most probably did, and this error is expected.");
+			dispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW));		  
+			Alert.show("An error occured while retrieving the content library document. " +
+					   "Please try again.", "Error");
+
 		}
 
 		private function onGetConlibSecurityError(event:SecurityErrorEvent) : void {
