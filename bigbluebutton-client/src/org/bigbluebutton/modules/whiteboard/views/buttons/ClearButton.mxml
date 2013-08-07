@@ -25,15 +25,24 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		   accessibilityName="{ResourceUtil.getInstance().getString('bbb.highlighter.toolbar.clear.accessibilityName')}">
 	<mx:Script>
 		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
             import org.bigbluebutton.modules.whiteboard.business.shapes.WhiteboardConstants;
             import org.bigbluebutton.modules.whiteboard.events.WhiteboardButtonEvent;
             import org.bigbluebutton.util.i18n.ResourceUtil;
 						
             private function onClick():void {
-                var event:WhiteboardButtonEvent = new WhiteboardButtonEvent(WhiteboardButtonEvent.WHITEBOARD_BUTTON_PRESSED);
-                event.graphicType = WhiteboardConstants.TYPE_CLEAR;
-                
-                dispatchEvent(event);
+				Alert.show("Are you sure you want to clear the whiteboard?", 
+							"Clear all?",
+							Alert.YES|Alert.NO, null, 
+							function (event:CloseEvent):void {
+								if (event.detail == Alert.YES) {
+									var btnEvent:WhiteboardButtonEvent = new WhiteboardButtonEvent(WhiteboardButtonEvent.WHITEBOARD_BUTTON_PRESSED);
+									btnEvent.graphicType = WhiteboardConstants.TYPE_CLEAR;
+									dispatchEvent(btnEvent);
+								}
+							}, 
+							null, Alert.NO);
             }
             
             public function setTool(gType:String, toolType:String):void {
