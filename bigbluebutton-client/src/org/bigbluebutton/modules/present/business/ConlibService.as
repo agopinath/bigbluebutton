@@ -70,8 +70,8 @@ package org.bigbluebutton.modules.present.business
 			LogUtil.debug("NOTE: If the above error occurs even if the the command reports having succeded " + 
 						  "on the server, then it most probably did, and this error is expected.");
 			dispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW));		  
-			Alert.show("An error occured while retrieving the content library document. " +
-					   "Please try again.", "Error");
+			//Alert.show("An error occured while retrieving the content library document. " +
+			//		   "Please try again.", "Error");
 
 		}
 
