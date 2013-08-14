@@ -118,7 +118,8 @@ DataGrid {
 
 .whiteboardUndoButtonStyle, .whiteboardCircleButtonStyle, .whiteboardClearButtonStyle,
 .whiteboardTriangleButtonStyle, .whiteboardTextButtonStyle, .whiteboardRectangleButtonStyle,
-.whiteboardPanZoomButtonStyle, .whiteboardLineButtonStyle, .whiteboardScribbleButtonStyle
+.whiteboardPanZoomButtonStyle, .whiteboardLineButtonStyle, .whiteboardScribbleButtonStyle,
+.whiteboardEraserButtonStyle
 {
   textIndent: 0;
   paddingLeft: 0;
@@ -135,6 +136,11 @@ DataGrid {
   themeColor: haloBlue;
   fontFamily: Arial;
   fontSize: 12;
+}
+
+.whiteboardEraserButtonStyle 
+{
+  icon: Embed('assets/images/eraser.png');
 }
 
 .whiteboardUndoButtonStyle 

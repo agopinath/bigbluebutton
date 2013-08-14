@@ -29,6 +29,7 @@ package org.bigbluebutton.modules.whiteboard.managers
 	import org.bigbluebutton.main.model.users.Conference;
 	import org.bigbluebutton.modules.present.api.PresentationAPI;
 	import org.bigbluebutton.modules.present.events.AddOverlayCanvasEvent;
+	import org.bigbluebutton.modules.present.events.PresentationEvent;
 	import org.bigbluebutton.modules.whiteboard.WhiteboardCanvasDisplayModel;
 	import org.bigbluebutton.modules.whiteboard.WhiteboardCanvasModel;
 	import org.bigbluebutton.modules.whiteboard.events.PageEvent;
@@ -135,6 +136,14 @@ package org.bigbluebutton.modules.whiteboard.managers
 		
 		public function disableWhiteboard(e:WhiteboardButtonEvent):void {
 			highlighterCanvas.disableWhiteboard(e);
+		}
+		
+		public function setEraserColor(event:PresentationEvent):void {
+			if(!highlighterCanvas.isEraserTool) return;
+			if(event.presentationName == "default" || event.presentationName == "grayslides") 
+				model.changeColor(0x333333);
+			else
+				model.changeColor(0xFFFFFF);
 		}
 	}
 }

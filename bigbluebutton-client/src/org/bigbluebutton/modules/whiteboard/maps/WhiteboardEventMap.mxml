@@ -52,6 +52,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		
 	<EventHandlers type="{PresentationEvent.PRESENTATION_LOADED}" >
 		<MethodInvoker generator="{WhiteboardService}" method="setActivePresentation" arguments="{event}" />
+		<MethodInvoker generator="{WhiteboardManager}" method="setEraserColor" arguments="{event}" />
 	</EventHandlers>
 	
 	<EventHandlers type="{StartWhiteboardModuleEvent.START_HIGHLIGHTER_MODULE_EVENT}">

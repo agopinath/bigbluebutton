@@ -129,7 +129,6 @@ package org.bigbluebutton.modules.whiteboard.models
             cp.currentPageNumber = pageNum;
             
             return cp;
-        }
-        
+        }    
 	}
 }

@@ -64,7 +64,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private var toolType:String = DrawObject.PENCIL;
 			private var whiteboardEnabled:Boolean = false;
 			private var showWhiteboard:Boolean = true;
-          
+            public var isEraserTool:Boolean = false;
+			
 			private function init():void {
 				this.label = "Highlighter";
                 registerForMouseEvents();
@@ -136,8 +137,17 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				model.setGraphicType(type);
 			}
 			
-			public function setTool(s:String):void {
+			public function setTool(s:String, toolIsEraser:Boolean):void {
                 if (model == null) return;
+				isEraserTool = toolIsEraser;
+				if(isEraserTool) {
+					s = DrawObject.PENCIL;
+					var pres:Object = model.whiteboardModel.getCurrentPresentationAndPage();
+					if(pres.presentationID == "default" || pres.presentationID == "grayslides") 
+						model.changeColor(0x333333);
+					else
+						model.changeColor(0xFFFFFF);
+				}
 				model.setTool(s);
 				toolType = s;
 			}
@@ -203,6 +213,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 			
 			public function setCursor(toolType:String):void {
+				if(isEraserTool) {
+					CursorManager.setCursor(eraser_icon);
+					return;
+				}
 				if(toolType == DrawObject.ELLIPSE) {
 					CursorManager.setCursor(ellipse_icon);
 				} else if(toolType == DrawObject.RECTANGLE) {
