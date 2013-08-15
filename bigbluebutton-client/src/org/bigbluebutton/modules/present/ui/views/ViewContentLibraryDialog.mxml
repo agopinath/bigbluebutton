@@ -40,7 +40,8 @@
 			import mx.controls.Menu;
 			import mx.events.MenuEvent;
 			import mx.managers.PopUpManager;
-			
+			import flash.events.TimerEvent;
+			import flash.utils.Timer;
 			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.modules.present.events.ConlibEvent;
 			import org.bigbluebutton.modules.present.events.UploadEvent;
@@ -106,7 +107,12 @@
 		  
 		  private function conlibConvertSuccess(e:UploadEvent):void {
 				progressBar.label = "Conversion of content library document was successful!"
-				closeConlibWindow();
+				closeButton.enabled = false;
+				var timer:Timer = new Timer(4000, 1);
+				timer.addEventListener(TimerEvent.TIMER, function():void {
+															closeConlibWindow();
+														 });
+				timer.start();
 		  }
 		]]>
 	</mx:Script>
