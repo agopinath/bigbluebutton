@@ -58,7 +58,7 @@ package org.bigbluebutton.modules.layout.managers
 		private var _layouts:LayoutDefinitionFile = null;
 		private var _canvas:MDICanvas = null;
 		private var _globalDispatcher:Dispatcher = new Dispatcher();
-		private var _locked:Boolean = false;
+		private var _locked:Boolean = true;
 		private var _currentLayout:LayoutDefinition = null;
 		private var _detectContainerChange:Boolean = true;
 		private var _containerDeactivated:Boolean = false;
@@ -75,6 +75,7 @@ package org.bigbluebutton.modules.layout.managers
 		public function LayoutManager() {
 			_applyCurrentLayoutTimer.addEventListener(TimerEvent.TIMER, function(e:TimerEvent):void {
 				applyLayout(_currentLayout);
+				lockLayout();
 			});
 			_sendCurrentLayoutUpdateTimer.addEventListener(TimerEvent.TIMER, function(e:TimerEvent):void {
 				sendLayoutUpdate(updateCurrentLayout());

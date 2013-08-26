@@ -173,6 +173,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 var t:Timer = new Timer(2000, 1);
                 t.addEventListener(TimerEvent.TIMER, addWhiteboardToolbar);
                 t.start();
+				
+				onFitToPage(false);
 			}
 			
             private function addWhiteboardToolbar(event:TimerEvent):void {
