@@ -220,29 +220,6 @@ class PresentationController {
 	String newConlibPresname = origConlibPresname.replaceAll(notValidCharsRegExp, '-')
 	
 	downloadAndProcessDocument(absoluteConlibFilename, newConlibPresname, params);
-	
-	/*if(originalConlibFile != null && originalConlibFile.isFile() && originalConlibFile.exists() && originalConlibFile.canRead()) {
-		System.out.println("!!!!!!!!!!!!! SHOWING CONTENT LIBRARY FILE ${conlibFilename}")
-		System.out.println("!!!!!!!!!!!!! CONTENT LIBRARY FILE PRESENTATION_NAME: ${origConlibPresname}")
-		
-		// Replace any character other than a (A-Z, a-z, 0-9, _ or .) with a - (dash).
-		def notValidCharsRegExp = /[^0-9a-zA-Z_\.]/
-		System.out.println("Orig conlib pres name: " + origConlibPresname)
-		def newConlibPresname = origConlibPresname.replaceAll(notValidCharsRegExp, '-')
-		System.out.println("New conlib pres name: " + newConlibPresname)
-		File uploadDir = presentationService.uploadedPresentationDirectory(params.conference, params.room, newConlibPresname)
-		
-		def newFilename = originalConlibFile.getName().replaceAll(notValidCharsRegExp, '-')
-		File pres = new File( uploadDir.absolutePath + File.separatorChar + newFilename )
-		copy(originalConlibFile, pres)
-		System.out.println("Final conlib file path: " + pres.absolutePath)
-		
-		UploadedPresentation uploadedPres = new UploadedPresentation(params.conference, params.room, newConlibPresname);
-		uploadedPres.setUploadedFile(pres);
-		presentationService.processUploadedPresentation(uploadedPres)		
-	} else {
-		System.out.println("Error: file is null or empty: " + presentationService.defaultContentLibraryFolder + conlibFilename);
-	}*/
   }
   
    def cleanFilename(filename) {
@@ -254,19 +231,29 @@ class PresentationController {
   def downloadAndProcessDocument(fileAddress, presName, conf) {
 	System.out.println("!!!!!!!!!!!!! SHOWING CONTENT LIBRARY FILE ${fileAddress}")
 	System.out.println("!!!!!!!!!!!!! CONTENT LIBRARY FILE PRESENTATION_NAME: ${presName}")
+	log.debug("!!!!!!!!!!!!! SHOWING CONTENT LIBRARY FILE ${fileAddress}")
 	
     String name = cleanFilename(fileAddress.tokenize("/")[-1]);
 	System.out.println("!!!!!!!!!!!!! CLEANED FILE PRESENTATION_NAME: ${name}")
     log.debug("Uploading presentation: ${name} from ${fileAddress} [starting download]");
-    //String nameWithoutExt = name.substring(0, name.lastIndexOf("."));
     def out;
     def pres;
     try {
       File uploadDir = presentationService.uploadedPresentationDirectory(conf.conference, conf.room, presName);
       pres = new File(uploadDir.absolutePath + File.separatorChar + name);
 	  System.out.println("!!!!!!!!!!!!! CONTENT LIBRARY FILE PRESENTATION_NAME: " + pres.getAbsolutePath())
+	  log.debug("!!!!!!!!!!!!! CONTENT LIBRARY FILE PRESENTATION_NAME: " + pres.getAbsolutePath())
+	  
+	  /*new File("/home/agopinath/foo.ini").withWriter { wr ->
+		wr.writeLine("${fileAddress}")
+		wr.writeLine("${pres.getAbsolutePath()}")
+	  }*/
+	  
+	  URL url = new URL(fileAddress);
+	  URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+	  URL sourceFile = uri.toURL();
       out = new BufferedOutputStream(new FileOutputStream(pres))
-      out << new URL(fileAddress).openStream()
+      out << sourceFile.openStream()
     } finally {
       if (out != null) {
         out.close()
