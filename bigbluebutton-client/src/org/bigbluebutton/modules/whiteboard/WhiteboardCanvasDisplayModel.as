@@ -174,7 +174,7 @@ package org.bigbluebutton.modules.whiteboard
                 tobj.makeEditable(true);
                 tobj.border = true;
         tobj.background = true;
-        tobj.backgroundColor = 0x000000;                
+        tobj.backgroundColor = 0xFFFFFF;                
 	//LogUtil.debug("Background is now " + tobj.background + " and colored " + tobj.backgroundColor);
       }
       

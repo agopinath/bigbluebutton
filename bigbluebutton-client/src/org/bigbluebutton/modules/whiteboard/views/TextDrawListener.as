@@ -96,12 +96,13 @@ package org.bigbluebutton.modules.whiteboard.views
                 
                 _mousedDown = false;
 
-                var tbWidth:Number = mouseX - _mouseXDown;
-                var tbHeight:Number = mouseY - _mouseYDown;
+                var tbWidth:Number = Math.abs(mouseX - _mouseXDown);
+                var tbHeight:Number = Math.abs(mouseY - _mouseYDown);
                 
                 if (tbHeight < 25 || tbWidth < 50) return;
                 
-                var tobj:TextDrawAnnotation = _shapeFactory.createTextObject("", 0xADADAD, _mouseXDown, _mouseYDown, tbWidth, tbHeight, 18);
+
+                var tobj:TextDrawAnnotation = _shapeFactory.createTextObject("", 0x000000, Math.min(_mouseXDown, mouseX), Math.min(_mouseYDown, mouseY), tbWidth, tbHeight, 18);
 
                 sendTextToServer(TextObject.TEXT_CREATED, tobj);                    
             }        
