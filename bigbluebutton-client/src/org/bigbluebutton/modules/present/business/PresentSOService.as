@@ -677,7 +677,7 @@ package org.bigbluebutton.modules.present.business {
 		
 		public function requestContentLibraryData(e:ConlibEvent):void {
 			LogUtil.debug("Sending request content library event");
-			var conlibUser:String = "ajay";
+			var conlibUser:String = UsersUtil.getMyExternalUserID();
 			nc.call( "presentation.getConlibFiles",// Remote function name
 				new Responder(
 					// participants - On successful result

@@ -2,21 +2,21 @@
 <config>
     <localeversion suppressWarning="false">0.8</localeversion>
     <version>VERSION</version>
-    <help url="http://173.230.154.37/help.html"/>
-    <porttest host="173.230.154.37" application="video/portTest" timeout="10000"/>    
-    <bwMon server="173.230.154.37" application="video/bwTest"/>
-    <application uri="rtmp://173.230.154.37/bigbluebutton" host="http://173.230.154.37/bigbluebutton/api/enter" />
+    <help url="http://learntobe.hostbbb.net/help.html"/>
+    <porttest host="learntobe.hostbbb.net" application="video/portTest" timeout="10000"/>    
+    <bwMon server="learntobe.hostbbb.net" application="video/bwTest"/>
+    <application uri="rtmp://learntobe.hostbbb.net/bigbluebutton" host="http://learntobe.hostbbb.net/bigbluebutton/api/enter" />
     <language userSelectionEnabled="true" />
-    <skinning enabled="true" url="http://173.230.154.37/client/branding/css/BBBDefault.css.swf" />
+    <skinning enabled="true" url="http://learntobe.hostbbb.net/client/branding/css/BBBDefault.css.swf" />
     <shortcutKeys showButton="true" />
-    <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
+    <layout showLogButton="false" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
             showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" 
-            showLogoutWindow="false" showLayoutTools="true" showNetworkMonitor="false" />
+            showLogoutWindow="true" showLayoutTools="true" showNetworkMonitor="false" />
             
 		<modules>
 		 
-		<module name="ChatModule" url="http://173.230.154.37/client/ChatModule.swf?v=VERSION" 
-			uri="rtmp://173.230.154.37/bigbluebutton" 
+		<module name="ChatModule" url="http://learntobe.hostbbb.net/client/ChatModule.swf?v=VERSION" 
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
 			dependsOn="UsersModule"	
 			translationOn="false"
 			translationEnabled="false"	
@@ -25,24 +25,24 @@
 			baseTabIndex="701"
 		/>
 
-		<module name="UsersModule" url="http://173.230.154.37/client/UsersModule.swf?v=VERSION" 
-			uri="rtmp://173.230.154.37/bigbluebutton" 
+		<module name="UsersModule" url="http://learntobe.hostbbb.net/client/UsersModule.swf?v=VERSION" 
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
 			allowKickUser="true"
 			baseTabIndex="301"
 		/>
 
 		
-		<!--<module name="DeskShareModule" 
-			url="http://173.230.154.37/client/DeskShareModule.swf?v=4105" 
-			uri="rtmp://173.230.154.37/deskShare"
-			showButton="false"
+		<module name="DeskShareModule" 
+			url="http://learntobe.hostbbb.net/client/DeskShareModule.swf?v=4105" 
+			uri="rtmp://learntobe.hostbbb.net/deskShare"
+			showButton="true"
 			autoStart="false"
 			autoFullScreen="false"
 			baseTabIndex="201"
-		/>-->
+		/>
 		
-		<module name="PhoneModule" url="http://173.230.154.37/client/PhoneModule.swf?v=VERSION" 
-			uri="rtmp://173.230.154.37/sip" 
+		<module name="PhoneModule" url="http://learntobe.hostbbb.net/client/PhoneModule.swf?v=VERSION" 
+			uri="rtmp://learntobe.hostbbb.net/sip" 
 			autoJoin="true"
 			skipCheck="false"
 			showButton="true"
@@ -50,8 +50,8 @@
 			dependsOn="UsersModule"
 		/>
 
-		<module name="VideoconfModule" url="http://173.230.154.37/client/VideoconfModule.swf?v=VERSION" 
-			uri="rtmp://173.230.154.37/video"
+		<module name="VideoconfModule" url="http://learntobe.hostbbb.net/client/VideoconfModule.swf?v=VERSION" 
+			uri="rtmp://learntobe.hostbbb.net/video"
 			dependson = "UsersModule"
 			videoQuality = "100"
 			presenterShareOnly = "false"
@@ -81,8 +81,8 @@
 			glowBlurSize = "30.0"	
 		/>
 		
-		<module name="WhiteboardModule" url="http://173.230.154.37/client/WhiteboardModule.swf?v=4105" 
-			uri="rtmp://173.230.154.37/bigbluebutton" 
+		<module name="WhiteboardModule" url="http://learntobe.hostbbb.net/client/WhiteboardModule.swf?v=4105" 
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
 			dependsOn="PresentModule"
 			baseTabIndex="601"
 			whiteboardAccess="presenter"
@@ -90,15 +90,15 @@
 		/>
 
 <!--
-    <module name="PollingModule" url="http://173.230.154.37/client/PollingModule.swf?v=VERSION" 
-      uri="rtmp://173.230.154.37/bigbluebutton" 
+    <module name="PollingModule" url="http://learntobe.hostbbb.net/client/PollingModule.swf?v=VERSION" 
+      uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
       dependsOn="PresentModule"
     />
 -->
     		
-		<module name="PresentModule" url="http://173.230.154.37/client/PresentModule.swf?v=VERSION" 
-			uri="rtmp://173.230.154.37/bigbluebutton" 
-			host="http://173.230.154.37" 
+		<module name="PresentModule" url="http://learntobe.hostbbb.net/client/PresentModule.swf?v=VERSION" 
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
+			host="http://learntobe.hostbbb.net" 
 			showPresentWindow="true"
 			showWindowControls="true"
 			openExternalFileUploadDialog="false"
@@ -107,8 +107,8 @@
 			maxFileSize="30"
 		/>
 
-		<module name="VideodockModule" url="http://173.230.154.37/client/VideodockModule.swf?v=VERSION"
-			uri="rtmp://173.230.154.37/bigbluebutton" 
+		<module name="VideodockModule" url="http://learntobe.hostbbb.net/client/VideodockModule.swf?v=VERSION"
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
 			dependsOn="VideoconfModule, UsersModule"
 			autoDock="true"
 			showControls="true"
@@ -121,21 +121,21 @@
 			baseTabIndex="401"
 		/>
 		
-		<module name="LayoutModule" url="http://173.230.154.37/client/LayoutModule.swf?v=VERSION"
-			uri="rtmp://173.230.154.37/bigbluebutton"
-			layoutConfig="http://173.230.154.37/client/conf/layout.xml"
+		<module name="LayoutModule" url="http://learntobe.hostbbb.net/client/LayoutModule.swf?v=VERSION"
+			uri="rtmp://learntobe.hostbbb.net/bigbluebutton"
+			layoutConfig="http://learntobe.hostbbb.net/client/conf/layout.xml"
 			enableEdit="false"
 		/>
 
 <!--
-    <module name="NotesModule" url="http://173.230.154.37/client/NotesModule.swf?v=VERSION"
-      saveURL="http://173.230.154.37"
+    <module name="NotesModule" url="http://learntobe.hostbbb.net/client/NotesModule.swf?v=VERSION"
+      saveURL="http://learntobe.hostbbb.net"
       position="top-left"
     />
     
-    <module name="BroadcastModule" url="http://173.230.154.37/client/BroadcastModule.swf?v=VERSION"
-      uri="rtmp://173.230.154.37/bigbluebutton"
-      streamsUri="http://173.230.154.37/streams.xml"
+    <module name="BroadcastModule" url="http://learntobe.hostbbb.net/client/BroadcastModule.swf?v=VERSION"
+      uri="rtmp://learntobe.hostbbb.net/bigbluebutton"
+      streamsUri="http://learntobe.hostbbb.net/streams.xml"
       position="top-left"
       showStreams="true"
       autoPlay="false"
