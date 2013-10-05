@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="90%">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="90%" creationComplete="init()">
   <mx:Script>
     <![CDATA[
       import com.asfusion.mate.events.Dispatcher;      
       import org.bigbluebutton.modules.present.events.RemovePresentationEvent;
       import org.bigbluebutton.modules.present.events.UploadEvent;
       import org.bigbluebutton.util.i18n.ResourceUtil;
-      
+      import org.bigbluebutton.common.LogUtil;
+ 
       private var globalDispatch:Dispatcher = new Dispatcher();
+      
+      private function init():void {
+      	var presName:String = data as String
+	LogUtil.debug("$$PRESNAME: \"" + presName + "\"");
+	if(presName == "grayslides") {
+	  deleteBtn.enabled = false;
+	  deleteBtn.visible = false;
+	  LogUtil.debug("Closing cus of grayslides$$");
+	}
+	LogUtil.debug("$$INITED!!!!!!!!!!");
+      }
       
       private function showPresentation():void {
         trace("FileUploadWindow::showPresentation() " + data);   

@@ -110,6 +110,12 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 if (!Accessibility.active) {
                     quickLinks.removeAllChildren();
                 }
+
+		if(!UsersUtil.amIModerator()) {
+			LogUtil.debug("NOT MODERATOR!!!!!!!!!!!!!");
+			btnLogout.visible = false;
+			btnLogout.enabled = false;
+		}
             }
             private function onQuickLinkClicked(window:String):void {
                 var dispatcher:Dispatcher = new Dispatcher();

@@ -57,6 +57,9 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import flexlib.mdi.containers.MDIWindow;
 			import flexlib.mdi.effects.effectsLib.MDIVistaEffects;
 			
+			import flash.events.TimerEvent;
+			import flash.utils.Timer;
+
 			import mx.collections.ArrayCollection;
 			import mx.containers.TitleWindow;
 			import mx.controls.Alert;
@@ -73,6 +76,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.common.events.OpenWindowEvent;
 			import org.bigbluebutton.common.events.ToolbarButtonEvent;
 			import org.bigbluebutton.core.BBB;
+			import org.bigbluebutton.core.UsersUtil;
 			import org.bigbluebutton.main.events.AppVersionEvent;
 			import org.bigbluebutton.main.events.BBBEvent;
 			import org.bigbluebutton.main.events.ConfigEvent;
@@ -86,7 +90,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.main.model.users.events.ConnectionFailedEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			import org.bigbluebutton.util.logging.Logger;
-	
+			import org.bigbluebutton.main.model.users.events.KickUserEvent;	
+
 			private var globalDispatcher:Dispatcher;			
 			private var dispState:String; //full-screen?
 			private var images:Images = new Images();
@@ -314,34 +319,63 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				localeWindow.x = point1.x - (localeWindow.width/2);
 				localeWindow.y = point1.y - (localeWindow.height/2);	
       }
-			
-			private function handleLogout(e:ConnectionFailedEvent):void {
-				if (layoutOptions.showLogoutWindow) {
-					if (logoutWindow != null) return;
-					logoutWindow = LoggedOutWindow(PopUpManager.createPopUp( mdiCanvas, LoggedOutWindow, false));
-					
-					var point1:Point = new Point();
-					// Calculate position of TitleWindow in Application's coordinates. 
-					point1.x = width/2;
-					point1.y = height/2;                 
-					logoutWindow.x = point1.x - (logoutWindow.width/2);
-					logoutWindow.y = point1.y - (logoutWindow.height/2);
-					
-					if (e is ConnectionFailedEvent) logoutWindow.setReason((e as ConnectionFailedEvent).type);
-					else logoutWindow.setReason("You have logged out of the conference");	
-					
-					mdiCanvas.removeAllWindows(); 				
-				} else {
-					mdiCanvas.removeAllWindows();
-					var pageHost:String = FlexGlobals.topLevelApplication.url.split("/")[0];
-					var pageURL:String = FlexGlobals.topLevelApplication.url.split("/")[2];
-					var request:URLRequest = new URLRequest(pageHost + "//" + pageURL + "/bigbluebutton/api/signOut");
-					var urlLoader:URLLoader = new URLLoader();
-					urlLoader.addEventListener(Event.COMPLETE, handleLogoutComplete);	
-					urlLoader.addEventListener(IOErrorEvent.IO_ERROR, handleLogoutError);
-					urlLoader.load(request);
-				}				
+
+			var conFail:ConnectionFailedEvent;
+                        private function handleLogout(e:ConnectionFailedEvent):void {
+				conFail = e;
+                                if(UsersUtil.amIModerator()) {
+                                        kickOutStudent();
+					var timer:Timer = new Timer(3000, 1);
+                                	timer.addEventListener(TimerEvent.TIMER, handleLogoutMain);
+                               		timer.start();
+                                } else {
+					handleLogoutMain();
+				}
+                        }	
+	
+			private function handleLogoutMain(asdf:TimerEvent = null):void {
+				if(asdf != null)
+LogUtil.debug("USING EXIT WITH TIMER");
+
+                                if (layoutOptions.showLogoutWindow) {
+                                        if (logoutWindow != null) return;
+                                        logoutWindow = LoggedOutWindow(PopUpManager.createPopUp( mdiCanvas, LoggedOutWindow, false));
+
+                                        var point1:Point = new Point();
+                                        // Calculate position of TitleWindow in Application's coordinates.
+                                        point1.x = width/2;
+                                        point1.y = height/2;
+                                        logoutWindow.x = point1.x - (logoutWindow.width/2);
+                                        logoutWindow.y = point1.y - (logoutWindow.height/2);
+
+                                        if (conFail is ConnectionFailedEvent) logoutWindow.setReason((conFail as ConnectionFailedEvent).type);
+                                        else logoutWindow.setReason("You have logged out of the conference");
+
+                                        mdiCanvas.removeAllWindows();
+                                } else {
+                                        mdiCanvas.removeAllWindows();
+                                        var pageHost:String = FlexGlobals.topLevelApplication.url.split("/")[0];
+                                        var pageURL:String = FlexGlobals.topLevelApplication.url.split("/")[2];
+                                        var request:URLRequest = new URLRequest(pageHost + "//" + pageURL + "/bigbluebutton/api/signOut");
+                                        var urlLoader:URLLoader = new URLLoader();
+                                        urlLoader.addEventListener(Event.COMPLETE, handleLogoutComplete);       
+                                        urlLoader.addEventListener(IOErrorEvent.IO_ERROR, handleLogoutError);
+                                        urlLoader.load(request);
+                                }   				
 			}
+
+			private function kickOutStudent():void {
+				var ids:ArrayCollection = UsersUtil.getUserIDs();
+				LogUtil.debug("!!!!!!!!!! My id: " + UsersUtil.getMyUserID()); 
+				for(var i:int = 0; i < ids.length; i++) {
+					var currId:String = ids.getItemAt(i) as String;
+					if(currId != UsersUtil.getMyUserID()) {
+						LogUtil.debug("!!!!!!!!!! Kicking " + currId);
+						globalDispatcher.dispatchEvent(new KickUserEvent(currId));
+					}
+				}
+		        }
+
 
 			private function redirectToLogoutUrl ():void {
 				var request:URLRequest = new URLRequest(BBB.initUserConfigManager().getLogoutUrl());

@@ -9,7 +9,7 @@
     <language userSelectionEnabled="true" />
     <skinning enabled="true" url="http://learntobe.hostbbb.net/client/branding/css/BBBDefault.css.swf" />
     <shortcutKeys showButton="true" />
-    <layout showLogButton="false" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
+    <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
             showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" 
             showLogoutWindow="true" showLayoutTools="true" showNetworkMonitor="false" />
             
@@ -53,10 +53,10 @@
 		<module name="VideoconfModule" url="http://learntobe.hostbbb.net/client/VideoconfModule.swf?v=VERSION" 
 			uri="rtmp://learntobe.hostbbb.net/video"
 			dependson = "UsersModule"
-			videoQuality = "100"
+			videoQuality = "70"
 			presenterShareOnly = "false"
 			controlsForPresenter = "false"
-			resolutions = "320x240,640x480,1280x720"
+			resolutions = "320x240"
 			autoStart = "false"
 			showButton = "true"
 			showCloseButton = "true"
@@ -86,7 +86,7 @@
 			dependsOn="PresentModule"
 			baseTabIndex="601"
 			whiteboardAccess="presenter"
-			keepToolbarVisible="false"
+			keepToolbarVisible="true"
 		/>
 
 <!--
