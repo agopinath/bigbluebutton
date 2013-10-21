@@ -336,8 +336,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function handleLogoutMain(asdf:TimerEvent = null):void {
 				if(asdf != null)
 LogUtil.debug("USING EXIT WITH TIMER");
-
-                                if (layoutOptions.showLogoutWindow) {
+				LogUtil.debug("F@@@LOGOUT CHECK IN MAIN APP SHELL");
+                                if (layoutOptions.showLogoutWindow || UsersUtil.getMyExternalUserID() == "345" || UsersUtil.getMyExternalUserID() == "5" || UsersUtil.getMyExternalUserID() == "748") {
                                         if (logoutWindow != null) return;
                                         logoutWindow = LoggedOutWindow(PopUpManager.createPopUp( mdiCanvas, LoggedOutWindow, false));
 

@@ -11,7 +11,7 @@
     <shortcutKeys showButton="true" />
     <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
             showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" 
-            showLogoutWindow="true" showLayoutTools="true" showNetworkMonitor="false" />
+            showLogoutWindow="false" showLayoutTools="true" showNetworkMonitor="false" />
             
 		<modules>
 		 
@@ -32,14 +32,14 @@
 		/>
 
 		
-		<module name="DeskShareModule" 
+		<!--<module name="DeskShareModule" 
 			url="http://learntobe.hostbbb.net/client/DeskShareModule.swf?v=4105" 
 			uri="rtmp://learntobe.hostbbb.net/deskShare"
 			showButton="true"
 			autoStart="false"
 			autoFullScreen="false"
 			baseTabIndex="201"
-		/>
+		/>-->
 		
 		<module name="PhoneModule" url="http://learntobe.hostbbb.net/client/PhoneModule.swf?v=VERSION" 
 			uri="rtmp://learntobe.hostbbb.net/sip" 

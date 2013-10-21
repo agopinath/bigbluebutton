@@ -224,6 +224,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 			
 			private function doLogout():void {
+				LogUtil.debug("F@@@ logout in MainToolbar");
 				dispatchEvent(new LogoutEvent(LogoutEvent.USER_LOGGED_OUT));
 			}
 			

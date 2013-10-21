@@ -74,6 +74,7 @@ package org.bigbluebutton.main.model.users {
 		}
 			
 		public function disconnect(onUserAction:Boolean):void {
+			LogUtil.debug("F@@@disconnect called in UsersSOService");
 			if (_participantsSO != null) {
         _participantsSO.close();
       }
@@ -221,6 +222,7 @@ package org.bigbluebutton.main.model.users {
 		}
 		
 		public function kickUserCallback(userid:String):void {
+	LogUtil.debug("F@@@KICK USER CALLBACK IN USERSSOSERVICE");
       var kickedEvent:LogoutEvent = new LogoutEvent(LogoutEvent.USER_KICKED_OUT);
       kickedEvent.userID = userid;
       dispatcher.dispatchEvent(kickedEvent);
@@ -273,7 +275,7 @@ package org.bigbluebutton.main.model.users {
 		 * Called by the server to tell the client that the meeting has ended.
 		 */
 		public function logout():void {
-
+			LogUtil.debug("F@@@logout called in UsersSOService");
 			var endMeetingEvent:BBBEvent = new BBBEvent(BBBEvent.END_MEETING_EVENT);
 			dispatcher.dispatchEvent(endMeetingEvent);
 		}
