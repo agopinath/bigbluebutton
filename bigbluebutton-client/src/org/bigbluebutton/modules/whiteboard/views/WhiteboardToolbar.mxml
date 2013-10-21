@@ -120,7 +120,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 
 			public var canvas:WhiteboardCanvas;
 			private var presentationWindow:PresentationWindow;
-			private var lastColor:int = 0xFFFFFF;
+			private var lastColor:int = 0x0088FF;
 			
 			[Bindable] private var colorPickerColours:Array = ['0x000000', '0xFFFFFF' , '0xFF0000', '0xFF8800',
                 '0xCCFF00', '0x00FF00', '0x00FF88', '0x00FFFF', '0x0088FF', '0x0000FF', '0x8800FF', '0xFF00FF', '0xC0C0C0'];
@@ -131,7 +131,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			}
 			
             private function onCreationComplete():void {
-                setToolType(WhiteboardConstants.TYPE_ZOOM, null);
+		//setToolType(WhiteboardConstants.TYPE_ZOOM, null);
+		setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);
             }
                        
             private function handleWhiteboardButtonPressed(e:WhiteboardButtonEvent):void {
@@ -216,7 +217,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         if (canvas == null) return;
         
 				canvas.makeTextObjectsEditable(e);
-        setToolType(WhiteboardConstants.TYPE_ZOOM, null);
+        setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);
+	
 			}
 			
 			private function viewerMode(e:MadePresenterEvent):void {
@@ -386,7 +388,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	the "fill" color that is used only if "fill" is enabled in WhiteboardCanvasModel
 	-->
 	<mx:ColorPicker change="changeColor(event)" id="cpik"  visible="{showWhiteboardToolbar}"
-                  selectedColor="0xFFFFFF" width="30" dataProvider="{colorPickerColours}" swatchPanelStyleName="colorPickerStyle"
+                  selectedColor="0x0088FF" width="30" dataProvider="{colorPickerColours}" swatchPanelStyleName="colorPickerStyle"
                   toolTip="{ResourceUtil.getInstance().getString('bbb.highlighter.toolbar.color')}"
                   tabIndex="{baseIndex+10}"
 				  accessibilityName="{ResourceUtil.getInstance().getString('bbb.highlighter.toolbar.color')}"/>
