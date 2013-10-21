@@ -132,7 +132,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			
             private function onCreationComplete():void {
 		//setToolType(WhiteboardConstants.TYPE_ZOOM, null);
-		setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);
+		if(UsersUtil.amIModerator())
+			setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);
+		else
+			setToolType(WhiteboardConstants.TYPE_ZOOM, null);
             }
                        
             private function handleWhiteboardButtonPressed(e:WhiteboardButtonEvent):void {
