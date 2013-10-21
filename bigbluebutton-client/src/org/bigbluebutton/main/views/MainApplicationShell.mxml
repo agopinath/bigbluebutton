@@ -90,8 +90,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.main.model.users.events.ConnectionFailedEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			import org.bigbluebutton.util.logging.Logger;
-			import org.bigbluebutton.main.model.users.events.KickUserEvent;	
-
+			import org.bigbluebutton.main.model.users.events.KickUserEvent;
+	
 			private var globalDispatcher:Dispatcher;			
 			private var dispState:String; //full-screen?
 			private var images:Images = new Images();
@@ -125,10 +125,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			[Bindable] private var layoutOptions:LayoutOptions;
 			
 			[Bindable] private var showToolbarOpt:Boolean = true;
-			[Bindable] private var toolbarHeight:Number = 30;
+			[Bindable] private var toolbarHeight:Number = 32;
       [Bindable] private var toolbarPaddingTop:Number = 4;
       [Bindable] private var showFooterOpt:Boolean = true;
-      [Bindable] private var footerHeight:Number = 20;
+      [Bindable] private var footerHeight:Number = 24;
       
       [Bindable] private var isTunneling:Boolean = false;
 			
@@ -154,6 +154,20 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			
 			protected function initializeShell():void {	
 				globalDispatcher = new Dispatcher();
+
+				systemManager.addEventListener(Event.RESIZE, updateCopyrightLabelDimensions);
+				copyrightLabel2.addEventListener(FlexEvent.UPDATE_COMPLETE, updateCopyrightLabelDimensions);
+				updateCopyrightLabelDimensions();
+			}
+
+			private function updateCopyrightLabelDimensions(e:Event = null):void {
+				var screenRect:Rectangle = systemManager.screen;
+
+				if (spacer.width == 0) {
+					copyrightLabel2.width += (screenRect.width - controlBar.width);
+				} else {
+					copyrightLabel2.width += Math.min(spacer.width, copyrightLabel2.measuredWidth - copyrightLabel2.width);
+				}
 			}
 		
 			protected function initFullScreen():void {				
@@ -308,16 +322,15 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         camSettings.x = point1.x - (camSettings.width/2);
         camSettings.y = point1.y - (camSettings.height/2);	
       }
-      
-	   	private function wrongLocaleVersion():void {
-				var localeWindow:OldLocaleWarnWindow = OldLocaleWarnWindow(PopUpManager.createPopUp(mdiCanvas, OldLocaleWarnWindow, false));
 
-				var point1:Point = new Point();
-	        	// Calculate position of TitleWindow in Application's coordinates. 
-				point1.x = width/2;
-				point1.y = height/2;              
-				localeWindow.x = point1.x - (localeWindow.width/2);
-				localeWindow.y = point1.y - (localeWindow.height/2);	
+                private function wrongLocaleVersion():void {
+                                var localeWindow:OldLocaleWarnWindow = OldLocaleWarnWindow(PopUpManager.createPopUp(mdiCanvas, OldLocaleWarnWindow, false));
+                                var point1:Point = new Point();
+                        // Calculate position of TitleWindow in Application's coordinates. 
+                                point1.x = width/2;
+                                point1.y = height/2;              
+                                localeWindow.x = point1.x - (localeWindow.width/2);
+                                localeWindow.y = point1.y - (localeWindow.height/2);
       }
 
 			var conFail:ConnectionFailedEvent;
@@ -375,7 +388,6 @@ LogUtil.debug("USING EXIT WITH TIMER");
 					}
 				}
 		        }
-
 
 			private function redirectToLogoutUrl ():void {
 				var request:URLRequest = new URLRequest(BBB.initUserConfigManager().getLogoutUrl());
@@ -462,23 +474,39 @@ LogUtil.debug("USING EXIT WITH TIMER");
 		<views:BrandingLogo x="{this.width - 300}" y="{this.height - 300}" />
 	</views:MainCanvas>	
 	
-	<mx:ControlBar width="100%" height="{footerHeight}" paddingTop="0">		
-	  <mx:Text htmlText="{ResourceUtil.getInstance().getString('bbb.mainshell.copyrightLabel2',[appVersion])}" id="copyrightLabel2"/>
-	 	<mx:Spacer width="20"/>
-		<mx:Spacer width="100%"/> 
-    <mx:Label text="{isTunneling ? '[Tunnelling]' : ''}" id="isTunnellingLbl"/>
-		
-		<mx:Button width="20" 
-				   height="20" 
-				   visible="{layoutOptions.showLogButton}" 
-				   toolTip="{ResourceUtil.getInstance().getString('bbb.mainshell.logBtn.toolTip')}" 
-				   id="logBtn" 
-				   icon="{logs_icon}" 
-				   click="openLogWindow()" 
-				   tabIndex="{baseIndex}"/>
-		
-		<!-- mx:Button width="20" height="20" visible="{layoutOptions.showResetLayout}" toolTip="{ResourceUtil.getInstance().getString('bbb.mainshell.resetLayoutBtn.toolTip')}" id="btnResetLayout" icon="{reset_layout_icon}" click="resetLayout()" /-->
-		<mx:Button id="btnNetwork" icon="{statsIcon}" width="20" height="20" mouseOver="openNetworkStatsWindow()" mouseOut="closeNetworkStatsWindow()" tabFocusEnabled="false" visible="{layoutOptions.showNetworkMonitor}" />		
+	<mx:ControlBar width="100%" height="{footerHeight}" paddingTop="0" id="controlBar">
+		<mx:Label
+				htmlText="{ResourceUtil.getInstance().getString('bbb.mainshell.copyrightLabel2',[appVersion])}"
+				id="copyrightLabel2"
+				selectable="false" />
+		<mx:Spacer width="20"/>
+		<mx:Spacer width="100%" id="spacer" />
+		<mx:Label
+				text="[Tunnelling]"
+				id="isTunnellingLbl"
+				visible="{isTunneling}"
+				includeInLayout="{isTunneling}" />
+
+		<mx:Button
+				width="20"
+				height="20"
+				visible="{layoutOptions.showLogButton}"
+				includeInLayout="{layoutOptions.showLogButton}"
+				toolTip="{ResourceUtil.getInstance().getString('bbb.mainshell.logBtn.toolTip')}"
+				id="logBtn"
+				icon="{logs_icon}"
+				click="openLogWindow()"
+				tabIndex="{baseIndex}"/>
+		<mx:Button
+				id="btnNetwork"
+				icon="{statsIcon}"
+				width="20"
+				height="20"
+				mouseOver="openNetworkStatsWindow()"
+				mouseOut="closeNetworkStatsWindow()"
+				tabFocusEnabled="false"
+				visible="{layoutOptions.showNetworkMonitor}"
+				includeInLayout="{layoutOptions.showNetworkMonitor}" />
 		<mx:HBox id="addedBtns" />
 	</mx:ControlBar>
 </mx:VBox>
