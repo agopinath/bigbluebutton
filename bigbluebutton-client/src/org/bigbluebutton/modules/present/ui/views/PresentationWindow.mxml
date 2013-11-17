@@ -82,7 +82,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import mx.events.ResizeEvent;
 			import mx.managers.PopUpManager;
 			import mx.rpc.events.*;
-			
+			import mx.containers.TabNavigator;
+
 			import org.bigbluebutton.common.IBbbCanvas;
 			import org.bigbluebutton.common.Images;
 			import org.bigbluebutton.common.LogUtil;
@@ -131,7 +132,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			[Bindable] private var DEFAULT_WINDOW_HEIGHT:Number = 451;
 			[Bindable] private var viewportW:Number = 451;
 			[Bindable] private var viewportH:Number = 451;
-			
+			[Bindable] private  var presNames:ArrayCollection;			
+
 			// Init to the size of the window.
 			private var currentSlideWidth:Number = DEFAULT_WINDOW_WIDTH;
 			private var currentSlideHeight:Number = DEFAULT_WINDOW_HEIGHT;
@@ -177,6 +179,39 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				onFitToPage(false);
 			}
 			
+			public function updatePresNames(presNames:ArrayCollection, presName:String):void {
+				this.presNames = presNames;
+				var vbox:VBox = new VBox();
+				vbox.label = presName;
+				tn.addChild(vbox);
+			}			
+			
+ 			private function switchPresTab(event:Event):void {
+			    var comp:Button = tn.getTabAt(event.currentTarget.selectedIndex) as Button;
+			    var presToShow:String = comp.label;
+			    LogUtil.debug("@@@switching to tab pres " + event.currentTarget.selectedIndex + " label: " + presToShow);
+		            if (presToShow == currentPresentation) return; 
+
+			    var readyEvent:UploadEvent = new UploadEvent(UploadEvent.PRESENTATION_READY);
+			    readyEvent.presentationName = presToShow;
+       			    dispatchEvent(readyEvent);
+			    
+			    var timer:Timer = new Timer(4000, 1);
+                            timer.addEventListener(TimerEvent.TIMER, function():void {
+              		    	 toggleTabs(true);
+                            });
+                            timer.start();
+
+ 			    toggleTabs(false);
+			}
+
+	    private function toggleTabs(toggle:Boolean):void {
+		for(var i:Number = 0; i < tn.numChildren; i++) {
+			var btn:Button = tn.getTabAt(i) as Button;
+			btn.enabled = toggle;
+                }
+	    }
+
             private function addWhiteboardToolbar(event:TimerEvent):void {
                 // Tell the WhiteboardManager to add the toolbar
                 var e:WhiteboardButtonEvent = new WhiteboardButtonEvent(WhiteboardButtonEvent.WHITEBOARD_ADDED_TO_PRESENTATION);
@@ -253,7 +288,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function onResizeEndEvent(event:MDIWindowEvent):void {
 				fitSlideToWindowMaintainingAspectRatio();
 			}
-			
+	
 			[Bindable] private var fitToPage:Boolean = true;
 			
 			private function fitSlideToWindowMaintainingAspectRatio():void {
@@ -349,15 +384,19 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function becomePresenter(e:MadePresenterEvent):void{
 				setupPresenter(true, e.presenterName);
 				addContextMenuItems();
+				checkTabs();
 			}
 			
 			private function becomeViewer(e:MadePresenterEvent):void{
 				setupPresenter(false, e.presenterName);
 				dispatchEvent(new UploadEvent(UploadEvent.CLOSE_UPLOAD_WINDOW));
+				var event:ConlibEvent = new ConlibEvent(ConlibEvent.CLOSE_CONLIB_WINDOW);
+                                dispatchEvent(event);
 				this.contextMenu = new ContextMenu();
 				this.contextMenu.hideBuiltInItems();
 				if (slideView.thumbnailView.visible)
 					showThumbnails();
+				checkTabs();
 			}
 						
 			private function setupPresenter(isPresenter:Boolean, presentersName:String):void {
@@ -367,9 +406,36 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				if (presentationLoaded) {
 	            	displaySlideNumber(slideView.selectedSlide + 1);	
 					displaySlideNavigationControls(isPresenter);
+					//checkTabs();
 				}
 			}
-					
+			
+			private function checkTabs():void {
+				LogUtil.debug("@@@IS PRESENTER FOR CHECK TABS: " + this.isPresenter);
+				if(UsersUtil.amIPresenter()) {
+					tn.visible = true;
+					LogUtil.debug("@@@TN CHILD: " + tn.numChildren);
+					//tn.includeInLayout = true;
+					syncTabs();
+				} else {
+					tn.visible = false;
+					//tn.includeInLayout = false;
+				}
+			}
+			
+			private function syncTabs():void {
+				var idx:Number = -1;
+				for(var i:Number = 0; i < tn.numChildren; i++) {
+					var btn:Button = tn.getTabAt(i) as Button;
+					if(btn.label == currentPresentation) {
+						idx = i; 
+						break;
+					}
+				}
+				if(idx != -1)
+	                        	tn.selectedIndex = idx;
+                        }
+
 			private function handlePresentationLoadedEvent(e:PresentationEvent):void {	
 				if (e.presentationName == currentPresentation) return;			
 				currentPresentation = e.presentationName;
@@ -386,6 +452,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 					dispatchEvent(new SlideEvent(SlideEvent.LOAD_CURRENT_SLIDE));
 				}
 				onResetZoom();
+				syncTabs();
 			}
 			
 			private function displaySlideNavigationControls(show:Boolean):void {
@@ -397,7 +464,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				btnFitToPage.visible = show;
 				LogUtil.debug("@@AM I MODERATOR " + UsersUtil.amIModerator());
 				LogUtil.debug("@@AM I PRESENTER " + UsersUtil.amIPresenter());
-				LogUtil.debug("@@Is conlibbtn showing " + openConlibBtn.visible);
+				LogUtil.debug("@@Is conlibtn showing " + openConlibBtn.visible);
 				if(UsersUtil.amIModerator())
 					openConlibBtn.visible = show;
 				LogUtil.debug("@@Is conlibbtn showing now " + openConlibBtn.visible);
@@ -647,9 +714,16 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
   	 
 	<mx:Fade id="thumbFadeIn" alphaFrom="1" alphaTo="0" duration="100" />
 	<mx:Fade id="thumbFadeOut" alphaFrom="0" alphaTo="1" duration="100" />
-
-	<views:SlideView id="slideView" width="100%" height="100%" visible="false" mouseDown="mouseDown = true"
-		mouseUp="mouseDown = false" verticalScrollPolicy="off" horizontalScrollPolicy="off" tabIndex="{baseIndex+4}"/>			    
+	<mx:VBox id="mainContainer">
+		<mx:TabNavigator id="tn"  width="100%" change="switchPresTab(event);" 
+	         paddingTop="0"
+                 paddingLeft="0"
+                 paddingRight="0"
+                 paddingBottom="0">
+       		 </mx:TabNavigator>
+		 <views:SlideView id="slideView" width="100%" height="100%" visible="false" mouseDown="mouseDown = true"
+                       	 mouseUp="mouseDown = false" verticalScrollPolicy="off" horizontalScrollPolicy="off" tabIndex="{baseIndex+4}"/>
+        </mx:VBox>	
 	<mx:ControlBar id="presCtrlBar" name="presCtrlBar" width="100%" height="{CONTROL_BAR_HEIGHT}" styleName="presentationWindowControlsStyle" >
 		<mx:Button id="uploadPres" visible="false" height="30" styleName="presentationUploadButtonStyle"
     		toolTip="{ResourceUtil.getInstance().getString('bbb.presentation.uploadPresBtn.toolTip')}" 

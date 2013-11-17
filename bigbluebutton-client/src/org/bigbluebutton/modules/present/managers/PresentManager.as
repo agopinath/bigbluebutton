@@ -110,6 +110,7 @@ package org.bigbluebutton.modules.present.managers
 				if (presentationNames[i] == e.presentationName) return;
 			}
 			presentationNames.addItem(e.presentationName);
+			presentWindow.updatePresNames(presentationNames, e.presentationName);
 		}
 
 		public function removePresentation(e:RemovePresentationEvent):void {
