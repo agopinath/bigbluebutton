@@ -76,6 +76,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.core.managers.UserManager;
 			import org.bigbluebutton.main.events.MadePresenterEvent;
 			import org.bigbluebutton.main.events.ShortcutEvent;
+			import org.bigbluebutton.main.model.CrashLogger;
 			import org.bigbluebutton.modules.present.events.PresentationEvent;
 			import org.bigbluebutton.modules.present.ui.views.PresentationWindow;
 			import org.bigbluebutton.modules.present.ui.views.SlideView;
@@ -178,6 +179,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                     }
                     
                     if (circleBtn != null) {
+			//LogUtil.debug("CRASH_LOG: SENDING LOG AND SWITCHING");
+			//CrashLogger.sendLog();
                         circleBtn.setTool(graphicType, toolType);
                     }
                     

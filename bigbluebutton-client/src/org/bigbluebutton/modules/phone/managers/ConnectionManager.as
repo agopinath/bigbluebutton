@@ -34,6 +34,8 @@ package org.bigbluebutton.modules.phone.managers {
 	import org.bigbluebutton.modules.phone.events.RegistrationFailedEvent;
 	import org.bigbluebutton.modules.phone.events.RegistrationSuccessEvent;
 	
+	import org.bigbluebutton.main.model.CrashLogger;
+
 	public class ConnectionManager {
 			
 		private  var netConnection:NetConnection = null;
@@ -90,6 +92,7 @@ package org.bigbluebutton.modules.phone.managers {
 				dispatcher.dispatchEvent(event); 				
 			} else if (evt.info.code == "NetConnection.Connect.NetworkChange") {
 				LogUtil.info("Detected network change. User might be on a wireless and temporarily dropped connection. Doing nothing. Just making a note.");
+				CrashLogger.sendLog();
 			} else {
 				LogUtil.info("Connection event info [" + evt.info.code + "]. Disconnecting.");
 				disconnect();

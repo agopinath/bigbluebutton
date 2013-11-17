@@ -14,6 +14,7 @@ bbb-lti/deploy.sh
 bbb-api-demo/bin*
 bbb-api-demo/.classpath
 bbb-api-demo/.project
+bbb-api-demo/src/main/webapp/test.jsp
 bigbluebutton-web/.settings*
 bigbluebutton-web/.classpath
 bigbluebutton-web/.project
