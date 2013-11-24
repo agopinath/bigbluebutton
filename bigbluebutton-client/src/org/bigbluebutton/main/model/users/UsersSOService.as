@@ -219,6 +219,7 @@ package org.bigbluebutton.main.model.users {
     }
     
 		public function kickUser(userid:String):void{
+			LogUtil.debug("@@@UserSOService sending kick for userid: " + userid);
 			_participantsSO.send("kickUserCallback", userid);
 		}
 		

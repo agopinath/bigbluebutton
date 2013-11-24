@@ -340,10 +340,11 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                         private function handleLogout(e:ConnectionFailedEvent):void {
 				conFail = e;
                                 if(UsersUtil.amIModerator()) {
-                                        kickOutStudent();
-					var timer:Timer = new Timer(3000, 1);
-                                	timer.addEventListener(TimerEvent.TIMER, handleLogoutMain);
-                               		timer.start();
+                                        //kickOutStudent();
+					//var timer:Timer = new Timer(2000, 1);
+                                	//timer.addEventListener(TimerEvent.TIMER, handleLogoutMain);
+                               		//timer.start();
+					handleLogoutMain();
                                 } else {
 					handleLogoutMain();
 				}
@@ -353,7 +354,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				if(asdf != null)
 LogUtil.debug("USING EXIT WITH TIMER");
 				LogUtil.debug("F@@@LOGOUT CHECK IN MAIN APP SHELL");
-                                if (layoutOptions.showLogoutWindow || UsersUtil.getMyExternalUserID() == "345" || UsersUtil.getMyExternalUserID() == "5" || UsersUtil.getMyExternalUserID() == "748") {
+                                //if (layoutOptions.showLogoutWindow || UsersUtil.getMyExternalUserID() == "5") {
+				if (layoutOptions.showLogoutWindow) {
                                         if (logoutWindow != null) return;
                                         logoutWindow = LoggedOutWindow(PopUpManager.createPopUp( mdiCanvas, LoggedOutWindow, false));
 
@@ -369,6 +371,7 @@ LogUtil.debug("USING EXIT WITH TIMER");
 
                                         mdiCanvas.removeAllWindows();
                                 } else {
+              				LogUtil.debug("F@@@REDIRECTING TO URL");
                                         mdiCanvas.removeAllWindows();
                                         var pageHost:String = FlexGlobals.topLevelApplication.url.split("/")[0];
                                         var pageURL:String = FlexGlobals.topLevelApplication.url.split("/")[2];
@@ -387,7 +390,8 @@ LogUtil.debug("USING EXIT WITH TIMER");
 					var currId:String = ids.getItemAt(i) as String;
 					if(currId != UsersUtil.getMyUserID()) {
 						LogUtil.debug("!!!!!!!!!! Kicking " + currId);
-						globalDispatcher.dispatchEvent(new KickUserEvent(currId));
+						var dispatcher:Dispatcher = new Dispatcher();
+		                                dispatcher.dispatchEvent(new KickUserEvent(currId));
 					}
 				}
 		        }

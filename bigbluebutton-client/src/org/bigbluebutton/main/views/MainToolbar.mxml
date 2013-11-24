@@ -42,9 +42,10 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import com.asfusion.mate.events.Dispatcher;
 			
 			import mx.core.UIComponent;
+			import mx.collections.ArrayCollection;
 			import mx.events.CloseEvent;
 			import mx.controls.Alert;
-			
+
 			import org.bigbluebutton.common.IBbbToolbarComponent;
 			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.common.events.CloseWindowEvent;
@@ -63,10 +64,13 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.main.model.LayoutOptions;
 			import org.bigbluebutton.main.model.users.events.ConferenceCreatedEvent;
 			import org.bigbluebutton.main.model.users.events.ConnectionFailedEvent;
+			import org.bigbluebutton.main.model.users.events.KickUserEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			import mx.controls.Alert;
 			import mx.accessibility.AlertAccImpl;
 			import mx.events.CloseEvent;
+			import flash.utils.Timer;
+		    	import flash.events.TimerEvent;
 
 			private var DEFAULT_HELP_URL:String = "http://www.bigbluebutton.org/content/videos";
 			
@@ -235,11 +239,30 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 						
 			private function alertLogout(e:CloseEvent):void {
 				// Check to see if the YES button was pressed.
-				if (e.detail==Alert.YES) {
-					 doLogout();
+				 if (e.detail==Alert.YES) {
+					//kickOutStudent();		
+					//dispatchEvent(new BBBEvent(BBBEvent.END_MEETING_EVENT));
+					var timer:Timer = new Timer(2000, 1);
+                                        timer.addEventListener(TimerEvent.TIMER, function() : void {
+				               LogUtil.debug("F@@@ logout in MainToolbar");
+		                               dispatchEvent(new LogoutEvent(LogoutEvent.USER_LOGGED_OUT)); 
+            				});
+                                        timer.start();
+					kickOutStudent();
+					//doLogout();
 				}
 			}
-			
+			private function kickOutStudent():void {
+                                var ids:ArrayCollection = UsersUtil.getUserIDs();
+                                LogUtil.debug("!!!!!!!!!!My id: " + UsersUtil.getMyUserID());
+                                for(var i:int = 0; i < ids.length; i++) {
+                                        var currId:String = ids.getItemAt(i) as String;
+                                        if(currId != UsersUtil.getMyUserID()) {
+                                                LogUtil.debug("!!!!!!!!!! Kicking " + currId);
+                                                dispatchEvent(new KickUserEvent(currId));
+                                        }
+                                }
+                        }
 			private function doLogout():void {
 				LogUtil.debug("F@@@ logout in MainToolbar");
 				dispatchEvent(new LogoutEvent(LogoutEvent.USER_LOGGED_OUT));
