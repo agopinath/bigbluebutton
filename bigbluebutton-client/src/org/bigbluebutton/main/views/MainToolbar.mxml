@@ -242,7 +242,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				 if (e.detail==Alert.YES) {
 					//kickOutStudent();		
 					//dispatchEvent(new BBBEvent(BBBEvent.END_MEETING_EVENT));
-					var timer:Timer = new Timer(2000, 1);
+					var timer:Timer = new Timer(4000, 1);
                                         timer.addEventListener(TimerEvent.TIMER, function() : void {
 				               LogUtil.debug("F@@@ logout in MainToolbar");
 		                               dispatchEvent(new LogoutEvent(LogoutEvent.USER_LOGGED_OUT)); 

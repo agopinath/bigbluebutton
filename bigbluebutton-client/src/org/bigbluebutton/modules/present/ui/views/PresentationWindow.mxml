@@ -297,6 +297,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			
 			private function onResizeEndEvent(event:MDIWindowEvent):void {
 				fitSlideToWindowMaintainingAspectRatio();
+				mainContainer.percentWidth = 100;
 			}
 	
 			[Bindable] private var fitToPage:Boolean = true;
@@ -463,6 +464,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				}
 				onResetZoom();
 				syncTabs();
+				mainContainer.percentWidth = 100;
 			}
 			
 			private function displaySlideNavigationControls(show:Boolean):void {
@@ -641,8 +643,11 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			
 			private function onFitToPage(ftp:Boolean):void {				
 				fitToPage = ftp;
+				mainContainer.percentWidth = 100;
 				slideView.switchToFitToPage(fitToPage);
+				mainContainer.percentWidth = 100;
 				fitSlideToWindowMaintainingAspectRatio();				
+				mainContainer.percentWidth = 100;
 			}
 			
 			override protected function hideAllChildren():void {
