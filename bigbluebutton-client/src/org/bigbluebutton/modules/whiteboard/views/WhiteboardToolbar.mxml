@@ -234,7 +234,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
         
 				canvas.makeTextObjectsEditable(e);
         setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);
-	
+				checkVisibility();
 			}
 			
 			private function viewerMode(e:MadePresenterEvent):void {
@@ -290,6 +290,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 if (toolbarAllowed() && slideLoaded) {
                     setPositionAndDepth();
                     showWhiteboardToolbar = true;
+		    setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);		
                 } else {
                     showWhiteboardToolbar = false;
                 }
