@@ -303,5 +303,11 @@ package org.bigbluebutton.common
 		
 		[Embed(source="assets/images/grid_icon.png")]
 		public var grid_icon:Class;	
+		
+		[Embed(source="assets/images/user_draw.png")]
+		public var user_draw:Class;	
+		
+		[Embed(source="assets/images/user_draw_off.png")]
+		public var user_draw_off:Class;	
 	}
 }
