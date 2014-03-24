@@ -85,7 +85,7 @@
 			uri="rtmp://learntobe.hostbbb.net/bigbluebutton" 
 			dependsOn="PresentModule"
 			baseTabIndex="601"
-			whiteboardAccess="presenter"
+			whiteboardAccess="all"
 			keepToolbarVisible="true"
 		/>
 

@@ -31,6 +31,7 @@ public class WhiteboardRoom {
 	private final String id;
 	private Presentation activePresentation;
 	private boolean whiteboardEnabled = false;
+	private boolean isMultidrawEnabled = true;
 	
 	private final UIDGenerator uidGen;
 	private final Map<String, IWhiteboardRoomListener> listeners;
@@ -188,5 +189,8 @@ public class WhiteboardRoom {
 	public int getUniqueWBGraphicIdentifier() {
 		return uidGen.generateUID();
 	}
-
+	
+	public void toggleMultidraw(Boolean isMultidrawEnabled) {
+		this.isMultidrawEnabled = isMultidrawEnabled;
+	}
 }

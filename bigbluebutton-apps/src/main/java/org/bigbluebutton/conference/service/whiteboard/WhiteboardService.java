@@ -115,4 +115,8 @@ public class WhiteboardService {
 		return (BigBlueButtonSession) Red5.getConnectionLocal().getAttribute(Constants.SESSION);
 	}
 	
+	public void toggleMultidraw(Map<String, Object> message) {
+		log.info("WhiteboardApplication - Toggling multidraw " + (Boolean)message.get("isMultidrawEnabled"));
+		application.toggleMultidraw((Boolean)message.get("isMultidrawEnabled"));
+	}
 }

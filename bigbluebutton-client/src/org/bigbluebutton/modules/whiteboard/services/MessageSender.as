@@ -30,7 +30,8 @@ package org.bigbluebutton.modules.whiteboard.services
 	import org.bigbluebutton.modules.whiteboard.events.PageEvent;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardDrawEvent;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardPresenterEvent;
-
+	import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
+	
 	public class MessageSender
 	{	
 		public function changePage(pageNum:Number):void{
@@ -81,6 +82,27 @@ package org.bigbluebutton.modules.whiteboard.services
 				function(status:String):void { // status - On error occurred
 					LogUtil.error(status); 
 				}
+			);
+		}
+		
+		/**
+		 * Sends a call out to the red5 server to notify the clients to toggle grid mode
+		 * 
+		 */		
+		public function toggleMultidraw(isMultidrawEnabled:Boolean):void {
+			var message:Object = new Object();
+			message["isMultidrawEnabled"] = isMultidrawEnabled;
+			
+//			LogUtil.debug("Sending [whiteboard.toggleMultidraw] to server.");
+			var _nc:ConnectionManager = BBB.initConnectionManager();
+			_nc.sendMessage("whiteboard.toggleMultidraw", 
+				function(result:String):void { // On successful result
+					LogUtil.debug(result); 
+				},	                   
+				function(status:String):void { // status - On error occurred
+					LogUtil.error(status); 
+				},
+				message
 			);
 		}
 		

@@ -25,7 +25,8 @@ package org.bigbluebutton.modules.whiteboard.services
   import org.bigbluebutton.modules.whiteboard.events.WhiteboardDrawEvent;
   import org.bigbluebutton.modules.whiteboard.events.WhiteboardPresenterEvent;
   import org.bigbluebutton.modules.whiteboard.models.WhiteboardModel;
-
+  import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
+  
   public class WhiteboardService
   {
     public var sender:MessageSender;
@@ -78,6 +79,11 @@ package org.bigbluebutton.modules.whiteboard.services
     public function checkIsWhiteboardOn():void {
       sender.checkIsWhiteboardOn();
     }
+	
+	public function toggleMultidraw(e:SimwriteEvent):void {
+	  LogUtil.debug("@@@ WB SERVICE: sending toggle multidraw");
+	  sender.toggleMultidraw(e.simwriteEnabled);
+	}
 
     public function setActivePresentation(e:PresentationEvent):void {
       if (isPresenter) {

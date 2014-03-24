@@ -230,6 +230,15 @@ public class WhiteboardApplication extends ApplicationAdapter implements IApplic
 //		drawSO.sendMessage("toggleGridCallback", new ArrayList<Object>());
 	}
 	
+	public void toggleMultidraw(Boolean isMultidrawEnabled) {
+		roomManager.getRoom(getMeetingId()).toggleMultidraw(isMultidrawEnabled);
+		
+		Map<String, Object> message = new HashMap<String, Object>();		
+		message.put("isMultidrawEnabled", isMultidrawEnabled);
+		ClientMessage m = new ClientMessage(ClientMessage.BROADCAST, getMeetingId(), "WhiteboardToggleMultidraw", message);
+		connInvokerService.sendMessage(m);
+	}
+	
 	public void setRoomManager(WhiteboardRoomManager manager) {
 		this.roomManager = manager;
 	}

@@ -25,7 +25,8 @@ package org.bigbluebutton.modules.whiteboard.services
   import org.bigbluebutton.modules.whiteboard.business.shapes.TextObject;
   import org.bigbluebutton.modules.whiteboard.models.Annotation;
   import org.bigbluebutton.modules.whiteboard.models.WhiteboardModel;
-
+  import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
+  
   public class MessageReceiver implements IMessageListener
   {
         /* Injected by Mate */
@@ -62,7 +63,10 @@ package org.bigbluebutton.modules.whiteboard.services
           break; 
         case "WhiteboardChangePresentationCommand":
           handleChangePresentationCommand(message);
-          break; 				
+          break;
+		case "WhiteboardToggleMultidraw":
+          handleMultidrawToggled(message);
+          break; 		  
         default:
 //          LogUtil.warn("Cannot handle message [" + messageName + "]");
       }
@@ -95,6 +99,11 @@ package org.bigbluebutton.modules.whiteboard.services
       whiteboardModel.enable(message.enabled);
     }
     
+	private function handleMultidrawToggled(message:Object):void {
+	 LogUtil.debug("@@@ WB MESSAGE RECEIVER: RECEIVED toggle multidraw");
+	  whiteboardModel.toggleMultidraw((message.isMultidrawEnabled as Boolean));
+    }
+	
     private function handleNewAnnotationCommand(message:Object):void {
       // LogUtil.debug("Handle new annotation[" + message.type + ", " + message.id + ", " + message.status + "]");
       if (message.type == undefined || message.type == null || message.type == "") return;

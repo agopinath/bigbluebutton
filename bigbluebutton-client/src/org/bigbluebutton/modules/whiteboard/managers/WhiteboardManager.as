@@ -36,6 +36,7 @@ package org.bigbluebutton.modules.whiteboard.managers
 	import org.bigbluebutton.modules.whiteboard.events.ToggleGridEvent;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardButtonEvent;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardUpdate;
+	import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
 	import org.bigbluebutton.modules.whiteboard.models.WhiteboardModel;
 	import org.bigbluebutton.modules.whiteboard.views.WhiteboardCanvas;
 	import org.bigbluebutton.modules.whiteboard.views.WhiteboardTextToolbar;
@@ -171,6 +172,21 @@ package org.bigbluebutton.modules.whiteboard.managers
 				model.changeColor(0x333333);
 			else
 				model.changeColor(0xFFFFFF);
+		}
+		
+		public function simwriteBtnClicked(e:SimwriteEvent):void {
+			if(e.type != SimwriteEvent.SIMWRITE_BUTTON_CLICKED) return;
+			
+			if(e.simwriteEnabled == true) {
+				LogUtil.debug("@@@@@@@@@ SIMWRITE BTN ENABLED");
+			} else {
+				LogUtil.debug("@@@@@@@@@ SIMWRITE BTN DISABLED");
+			}
+		}
+		
+		public function toggleMultidraw(e:SimwriteEvent):void {
+			if(e.type != SimwriteEvent.SIMWRITE_CHANGED_CALLBACK) return;
+			displayToolbarButton();
 		}
 	}
 }

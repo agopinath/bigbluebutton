@@ -27,7 +27,8 @@ package org.bigbluebutton.modules.whiteboard.models
 	import org.bigbluebutton.modules.whiteboard.business.shapes.TextObject;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardDrawEvent;
 	import org.bigbluebutton.modules.whiteboard.events.WhiteboardUpdate;
-
+    import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
+	
 	public class WhiteboardModel
 	{
 		private var _presentations:ArrayCollection = new ArrayCollection();
@@ -131,6 +132,14 @@ package org.bigbluebutton.modules.whiteboard.models
             cp.currentPageNumber = pageNum;
             
             return cp;
-        }    
+        }
+
+		public function toggleMultidraw(isMultidrawEnabled:Boolean):void {
+          var simwriteToggledEvt:SimwriteEvent = new SimwriteEvent(SimwriteEvent.SIMWRITE_CHANGED_CALLBACK);
+	  
+		  simwriteToggledEvt.simwriteEnabled = isMultidrawEnabled;
+		  LogUtil.debug("@@@ WB MODEL: toggle multidraw = " + simwriteToggledEvt.simwriteEnabled);
+		  _dispatcher.dispatchEvent(simwriteToggledEvt);        
+        }
 	}
 }
