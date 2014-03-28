@@ -158,6 +158,20 @@ package org.bigbluebutton.modules.whiteboard.services
             );
         }
         
+		public function requestSimwriteState():void{
+//          LogUtil.debug("Sending [whiteboard.requestSimwriteState] to server.");
+            
+            var _nc:ConnectionManager = BBB.initConnectionManager();
+            _nc.sendMessage("whiteboard.requestSimwriteState", 
+                function(result:String):void { // On successful result
+                    LogUtil.debug(result); 
+                },	                   
+                function(status:String):void { // status - On error occurred
+                    LogUtil.error(status); 
+                }
+            );
+        }
+		
 		/**
 		 * Sends a TextObject to the Shared Object on the red5 server, and then triggers an update across all clients
 		 * @param shape The shape sent to the SharedObject

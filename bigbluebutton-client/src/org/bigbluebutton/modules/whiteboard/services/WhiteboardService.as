@@ -41,6 +41,11 @@ package org.bigbluebutton.modules.whiteboard.services
       }
     }
     
+	public function getSimwriteState():void
+    {
+      sender.requestSimwriteState();
+    }
+	
     public function modifyEnabled(e:WhiteboardPresenterEvent):void {
       sender.modifyEnabled(e);
     }

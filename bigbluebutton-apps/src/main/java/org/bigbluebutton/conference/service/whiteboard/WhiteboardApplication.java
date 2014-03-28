@@ -239,6 +239,15 @@ public class WhiteboardApplication extends ApplicationAdapter implements IApplic
 		connInvokerService.sendMessage(m);
 	}
 	
+	public void sendSimwriteState() {
+		Boolean simwriteState = roomManager.getRoom(getMeetingId()).getSimwriteState();
+		
+		Map<String, Object> message = new HashMap<String, Object>();		
+		message.put("simwriteState", simwriteState);
+		ClientMessage m = new ClientMessage(ClientMessage.BROADCAST, getMeetingId(), "WhiteboardRequestSimwriteStateReply", message);
+		connInvokerService.sendMessage(m);
+	}
+	
 	public void setRoomManager(WhiteboardRoomManager manager) {
 		this.roomManager = manager;
 	}

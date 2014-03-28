@@ -63,7 +63,11 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
     <EventHandlers type="{WhiteboardDrawEvent.GET_ANNOTATION_HISTORY}">
         <MethodInvoker generator="{WhiteboardService}" method="getAnnotationHistory"/>
     </EventHandlers>
-    
+	  
+	<EventHandlers type="{SimwriteEvent.GET_SIMWRITE_STATE}">
+        <MethodInvoker generator="{WhiteboardService}" method="getSimwriteState"/>
+    </EventHandlers>
+	
 	<EventHandlers type="{WhiteboardDrawEvent.CLEAR}" >
 		<MethodInvoker generator="{WhiteboardService}" method="clearBoard" />
 	</EventHandlers>

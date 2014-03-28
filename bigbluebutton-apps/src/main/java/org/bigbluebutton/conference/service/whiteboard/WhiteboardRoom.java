@@ -193,4 +193,8 @@ public class WhiteboardRoom {
 	public void toggleMultidraw(Boolean isMultidrawEnabled) {
 		this.isMultidrawEnabled = isMultidrawEnabled;
 	}
+	
+	public Boolean getSimwriteState() {
+		return this.isMultidrawEnabled;
+	}
 }

@@ -119,4 +119,9 @@ public class WhiteboardService {
 		log.info("WhiteboardApplication - Toggling multidraw " + (Boolean)message.get("isMultidrawEnabled"));
 		application.toggleMultidraw((Boolean)message.get("isMultidrawEnabled"));
 	}
+	
+	public void requestSimwriteState() {
+		log.info("WhiteboardApplication - Requesting multidraw state");
+		application.sendSimwriteState();
+	}
 }

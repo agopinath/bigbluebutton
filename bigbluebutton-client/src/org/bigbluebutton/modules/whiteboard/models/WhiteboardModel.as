@@ -141,5 +141,13 @@ package org.bigbluebutton.modules.whiteboard.models
 		  LogUtil.debug("@@@ WB MODEL: toggle multidraw = " + simwriteToggledEvt.simwriteEnabled);
 		  _dispatcher.dispatchEvent(simwriteToggledEvt);        
         }
+		
+		public function handleSimwriteStateReply(simwriteStateReply:Boolean):void {
+          var simwriteToggledEvt:SimwriteEvent = new SimwriteEvent(SimwriteEvent.SIMWRITE_CHANGED_CALLBACK);
+	  
+		  simwriteToggledEvt.simwriteEnabled = simwriteStateReply;
+		  LogUtil.debug("@@@ WB MODEL: SIMWRITE STATE CHANGING TO " + simwriteToggledEvt.simwriteEnabled);
+		  _dispatcher.dispatchEvent(simwriteToggledEvt);        
+        }
 	}
 }

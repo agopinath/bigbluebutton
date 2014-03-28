@@ -43,7 +43,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
             import org.bigbluebutton.modules.whiteboard.events.WhiteboardDrawEvent;
             import org.bigbluebutton.modules.whiteboard.events.WhiteboardSettingResetEvent;
             import org.bigbluebutton.modules.whiteboard.models.Annotation;
-			
+			import org.bigbluebutton.modules.whiteboard.events.SimwriteEvent;
+
 			public var model:WhiteboardCanvasModel;	
             public var displayModel:WhiteboardCanvasDisplayModel;
             
@@ -74,6 +75,12 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
             public function queryForAnnotationHistory():void {
                 var dispatcher:Dispatcher = new Dispatcher();
                 dispatcher.dispatchEvent(new WhiteboardDrawEvent(WhiteboardDrawEvent.GET_ANNOTATION_HISTORY));
+            }
+			
+			public function queryForSimwriteState():void {
+				LogUtil.debug("@@@ wbcanvas - asking for simwrite state");
+                var dispatcher:Dispatcher = new Dispatcher();
+                dispatcher.dispatchEvent(new SimwriteEvent(SimwriteEvent.GET_SIMWRITE_STATE));
             }
 			
             public function registerForMouseEvents():void {
@@ -270,6 +277,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 if (! displayModel.canvasInited) {
                     displayModel.parentCanvasInitialized();
                     queryForAnnotationHistory();
+					queryForSimwriteState();
                 }
                     
 			}
