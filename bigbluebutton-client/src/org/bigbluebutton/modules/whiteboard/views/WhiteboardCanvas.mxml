@@ -65,6 +65,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private var toolType:String = DrawObject.PENCIL;
 			private var whiteboardEnabled:Boolean = false;
 			private var showWhiteboard:Boolean = true;
+			private var isMultidrawEnabled:Boolean = true;
             public var isEraserTool:Boolean = false;
 			
 			private function init():void {
@@ -330,6 +331,11 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				this.whiteboardEnabled = false;
 				setWhiteboardVisibility();
                 useHandCursor = true;
+			}
+			
+			public function setMultidrawEnabled(enabled:Boolean):void{
+				this.isMultidrawEnabled = enabled;
+				displayModel.setMultidrawEnabled(enabled);
 			}
 			
 		]]>

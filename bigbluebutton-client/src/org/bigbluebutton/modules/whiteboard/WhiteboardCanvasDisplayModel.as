@@ -79,6 +79,7 @@ package org.bigbluebutton.modules.whiteboard
     private var height:Number;
             
 	private var zoomPercentage:Number = 1;
+	private var isMultidrawEnabled:Boolean = true;
 	
     public function doMouseDown(mouseX:Number, mouseY:Number):void {
       /**
@@ -107,13 +108,16 @@ package org.bigbluebutton.modules.whiteboard
           case DrawObject.DRAW_UPDATE:
           case DrawObject.DRAW_END:
             if (_annotationsList.length > 0) {
-              var gobj:DrawObject = _annotationsList.pop();  
-              if (gobj.id == o.id) {
+			  var gobjData:Array = getGobjInfoWithID(o.id);
+              var gobj:DrawObject = gobjData[1];//_annotationsList.pop(); 
+			  var gobjExists:Boolean = false;
+              if (gobj != null) {
                 //              LogUtil.debug("Removing shape [" + gobj.id + "]");
                 wbCanvas.removeGraphic(gobj as DisplayObject);
+				gobjExists = true;
               } else { // no DRAW_START event was thrown for o so place gobj back on the top
-                LogUtil.debug("Not removing shape [" + gobj.id + "] new [" + o.id + "]");
-                _annotationsList.push(gobj);
+                //LogUtil.debug("Not removing shape [" + gobj.id + "] new [" + o.id + "]");
+                //_annotationsList.push(gobj);
               }              
             }
                  
@@ -121,8 +125,15 @@ package org.bigbluebutton.modules.whiteboard
             if (dobj != null) {
               dobj.draw(o, shapeFactory.parentWidth, shapeFactory.parentHeight, zoomPercentage);
               wbCanvas.addGraphic(dobj);
-              _annotationsList.push(dobj);              
+			  if(gobjExists)
+				_annotationsList[gobjData[0]] = dobj;
+			  else
+				_annotationsList.push(dobj);
             }
+			
+			if(o.status == DrawObject.DRAW_END)
+				LogUtil.debug("@@@ NUMBER OF ANNOTATIONS: " + _annotationsList.length);
+			end
             break;
         }                   
       } else { 
@@ -598,5 +609,9 @@ package org.bigbluebutton.modules.whiteboard
         private function get isPresenter():Boolean {
             return UserManager.getInstance().getConference().amIPresenter;
         }
+		
+	public function setMultidrawEnabled(enabled:Boolean):void{
+		this.isMultidrawEnabled = enabled;
+	}
   }
 }
