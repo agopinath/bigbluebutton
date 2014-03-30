@@ -20,7 +20,8 @@ package org.bigbluebutton.modules.whiteboard.business.shapes
 {
   import org.bigbluebutton.modules.whiteboard.models.Annotation;
   import org.bigbluebutton.modules.whiteboard.models.WhiteboardModel;
-
+  import org.bigbluebutton.core.UsersUtil;
+  
   public class TextDrawAnnotation extends DrawAnnotation
   {
     private var _type:String = DrawObject.TEXT;
@@ -33,7 +34,8 @@ package org.bigbluebutton.modules.whiteboard.business.shapes
     private var _fontStyle:String = "arial";
     private var _fontSize:Number;
     private var _calcedFontSize:Number;
-    
+    public var originatorID:String;
+	
     public function TextDrawAnnotation(text:String, color:uint, x:Number, y:Number, width:Number, 
                                        height:Number, fontSize:Number, calcedFontSize:Number)
     {
@@ -61,7 +63,9 @@ package org.bigbluebutton.modules.whiteboard.business.shapes
       ao["calcedFontSize"] = _calcedFontSize;
       ao["textBoxWidth"] = _textBoxWidth;
       ao["textBoxHeight"] = _textBoxHeight;
-            
+      ao["textBoxHeight"] = _textBoxHeight;
+	  ao["originatorID"] = UsersUtil.getMyUserID();
+	  
       var pn:Object = wbModel.getCurrentPresentationAndPage();
       if (pn != null) {
         ao["presentationID"] = pn.presentationID;

@@ -42,6 +42,7 @@ package org.bigbluebutton.modules.whiteboard
   import org.bigbluebutton.common.IBbbCanvas;
   import org.bigbluebutton.common.LogUtil;
   import org.bigbluebutton.core.managers.UserManager;
+  import org.bigbluebutton.core.UsersUtil;
   import org.bigbluebutton.main.events.MadePresenterEvent;
   import org.bigbluebutton.modules.present.events.NavigationEvent;
   import org.bigbluebutton.modules.whiteboard.business.shapes.DrawGrid;
@@ -92,7 +93,9 @@ package org.bigbluebutton.modules.whiteboard
     }
         
     public function drawGraphic(event:WhiteboardUpdate):void{
+	
       var o:Annotation = event.annotation;
+	  LogUtil.debug("@@@ WB CANVA DISPLAY ANNOTATIOn " + o.type);
       //  LogUtil.debug("**** Drawing graphic [" + o.type + "] *****");
       if (o.type != DrawObject.TEXT) {    
         var dobj:DrawObject;
@@ -131,46 +134,50 @@ package org.bigbluebutton.modules.whiteboard
 				_annotationsList.push(dobj);
             }
 			
-			if(o.status == DrawObject.DRAW_END)
+			if(o.status == DrawObject.DRAW_END) {
 				LogUtil.debug("@@@ NUMBER OF ANNOTATIONS: " + _annotationsList.length);
-			end
+			}
             break;
         }                   
-      } else { 
+      } else {
         drawText(o);  
       }
     }
                    
     // Draws a TextObject when/if it is received from the server
-    private function drawText(o:Annotation):void {    
-      switch (o.status) {
-        case TextObject.TEXT_CREATED:
-          if (isPresenter)
-            addPresenterText(o, true);
-          else
-            addNormalText(o);                            
-          break;
-        case TextObject.TEXT_UPDATED:
-          if (!isPresenter) {
-                        modifyText(o);
-          }   
-          break;
-        case TextObject.TEXT_PUBLISHED:
-          modifyText(o);
-          // Inform others that we are done with listening for events and that they should re-listen for keyboard events. 
-          if (isPresenter) {
-            bindToKeyboardEvents(true);
-            wbCanvas.stage.focus = null;
-            currentlySelectedTextObject = null;
-          }
-          break;
-      }        
+    private function drawText(o:Annotation):void {
+	LogUtil.debug("@@@ WB CANVAS: DRAWING TEXT!!!!!");
+	LogUtil.debug("@@@ TeXT RECEIVED: "  + o.annotation["originatorID"] + " " + (o.annotation["originatorID"] == UsersUtil.getMyUserID()));
+	LogUtil.debug("@@@ WB CANVAS: DRAWING TEXT PASS 2");
+	  var presTextFlag:Boolean = (isMultidrawEnabled) ? (o.annotation["originatorID"] == UsersUtil.getMyUserID()) : isPresenter;
+	  switch (o.status) {
+		case TextObject.TEXT_CREATED:
+		  if (presTextFlag)
+			addPresenterText(o, true);
+		  else
+			addNormalText(o);                            
+		  break;
+		case TextObject.TEXT_UPDATED:
+		  if (!presTextFlag) {
+				modifyText(o);
+		  }   
+		  break;
+		case TextObject.TEXT_PUBLISHED:
+		  modifyText(o);
+		  // Inform others that we are done with listening for events and that they should re-listen for keyboard events. 
+		  if (presTextFlag) {
+			bindToKeyboardEvents(true);
+			wbCanvas.stage.focus = null;
+			currentlySelectedTextObject = null;
+		  }
+		  break;
+	  }
     }
         
     /* adds a new TextObject that is suited for a presenter. For example, it will be made editable and the appropriate listeners will be registered so that
     the required events will be dispatched  */
     private function addPresenterText(o:Annotation, background:Boolean=false):void {
-      if (!isPresenter) return;
+      if (!(isPresenter || (o.annotation["originatorID"] == UsersUtil.getMyUserID()))) return;
             
             /**
             * We will not be listening for keyboard events to input texts. Tell others to not listen for these events. For example, the presentation module
@@ -581,7 +588,8 @@ package org.bigbluebutton.modules.whiteboard
       annotation["calcedFontSize"] = GraphicFactory.normalize(tobj.textSize, shapeFactory.parentHeight);
       annotation["textBoxWidth"] = tobj.textBoxWidth;
       annotation["textBoxHeight"] = tobj.textBoxHeight;
-      
+      annotation["originatorID"] = UsersUtil.getMyUserID();
+	  
       var pn:Object = whiteboardModel.getCurrentPresentationAndPage();
       if (pn != null) {
         annotation["presentationID"] = pn.presentationID;
