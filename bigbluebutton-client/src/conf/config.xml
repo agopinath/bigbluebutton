@@ -9,7 +9,7 @@
     <language userSelectionEnabled="true" />
     <skinning enabled="true" url="http://learntobe.hostbbb.net/client/branding/css/BBBDefault.css.swf" />
     <shortcutKeys showButton="true" />
-    <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="Default"
+    <layout showLogButton="true" showVideoLayout="false" showResetLayout="true" defaultLayout="LTB Default Layout"
             showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true" 
             showLogoutWindow="false" showLayoutTools="true" showNetworkMonitor="false" />
             
