@@ -38,7 +38,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	  import org.bigbluebutton.modules.present.events.ConlibEvent;
       import org.bigbluebutton.modules.present.managers.PresentManager;
       import org.bigbluebutton.modules.present.ui.views.PresentationWindow;
-
+	  import org.bigbluebutton.modules.present.events.NavigationEvent;
+	  
 			private var apiInstance:PresentationAPI;
 			
 			private function createAPI():void{
@@ -144,5 +145,9 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	
 	<EventHandlers type="{SlideEvent.LOAD_CURRENT_SLIDE}" >
 		<MethodInvoker generator="{PresentProxy}" method="loadCurrentSlideLocally" arguments="{event}" />
+	</EventHandlers>
+	
+	<EventHandlers type="{NavigationEvent.GOTO_PAGE}" >
+		<MethodInvoker generator="{PresentProxy}" method="updatePresentationPageNums" arguments="{event}" />
 	</EventHandlers>
 </EventMap>

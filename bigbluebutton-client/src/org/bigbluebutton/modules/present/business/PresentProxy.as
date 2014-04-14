@@ -39,6 +39,7 @@ package org.bigbluebutton.modules.present.business
 	import org.bigbluebutton.modules.present.events.UploadEvent;
 	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	import org.bigbluebutton.modules.present.managers.PresentationSlides;
+	import org.bigbluebutton.modules.present.events.NavigationEvent;
 	
 	public class PresentProxy
 	{
@@ -52,6 +53,8 @@ package org.bigbluebutton.modules.present.business
 		private var uploadService:FileUploadService;
 		private var slides:PresentationSlides;
 		private var conlibService:ConlibService;
+		
+		private var pageNumMap:Object = new Object();
 		
 		public function PresentProxy(){
 			slides = new PresentationSlides();
@@ -115,9 +118,11 @@ package org.bigbluebutton.modules.present.business
 		 * Loads a presentation from the server. creates a new PresentationService class 
 		 * 
 		 */		
+		private var currPresName:String = null;
 		public function loadPresentation(e:UploadEvent) : void
 		{
 			var presentationName:String = e.presentationName;
+			currPresName = e.presentationName;
 			LogUtil.debug("PresentProxy::loadPresentation: presentationName=" + presentationName);
 			var fullUri : String = host + "/bigbluebutton/presentation/" + conference + "/" + room + "/" + presentationName+"/slides";	
 			var slideUri:String = host + "/bigbluebutton/presentation/" + conference + "/" + room + "/" + presentationName;
@@ -134,12 +139,20 @@ package org.bigbluebutton.modules.present.business
 		 * @param e
 		 * 
 		 */		
+		private var testNum:Number = 1;
 		public function sharePresentation(e:PresenterCommands):void{
 			if (soService == null) return;
 			soService.sharePresentation(e.share, e.presentationName);
 			var timer:Timer = new Timer(3000, 1);
 			timer.addEventListener(TimerEvent.TIMER, sendViewerNotify);
 			timer.start();
+			//soService.gotoSlide(testNum++);
+			
+		}
+		
+		public function updatePresentationPageNums(e:NavigationEvent):void {
+			if (soService == null || currPresName == null) return;
+			pageNumMap[currPresName] = e.pageNumber;
 		}
 		
 		public function removePresentation(e:RemovePresentationEvent):void {
@@ -149,7 +162,13 @@ package org.bigbluebutton.modules.present.business
 		
 		private function sendViewerNotify(e:TimerEvent):void{
 			if (soService == null) return;
-			soService.gotoSlide(0);
+			if(currPresName == null) {
+				soService.gotoSlide(0);
+				LogUtil.debug("@@@ CHANGING SLIDE NUM TO: 0");
+			} else {
+				soService.gotoSlide(pageNumMap[currPresName]);
+				LogUtil.debug("@@@ CHANGING SLIDE NUM TO: " + pageNumMap[currPresName]);
+			}
 		}
 			
 		/**
