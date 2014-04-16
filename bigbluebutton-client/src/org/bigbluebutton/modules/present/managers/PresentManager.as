@@ -140,20 +140,25 @@ package org.bigbluebutton.modules.present.managers
 			// If so, load it directly instead of reconverting it again.
 			for (var i:int = 0; i < presentationNames.length; i++) {
 				if ((presentationNames.getItemAt(i) as String) == e.conlibPresnameToGet) {
-					var readyEvent:UploadEvent = new UploadEvent(UploadEvent.PRESENTATION_READY);
-					readyEvent.presentationName = e.conlibPresnameToGet;
-					LogUtil.debug("LOADING CONLIB DOC LOCALLY: " + e.conlibPresnameToGet);
-					globalDispatcher.dispatchEvent(readyEvent);
+					if(PresentDelayManager.currPres != e.conlibPresnameToGet) {
+						var readyEvent:UploadEvent = new UploadEvent(UploadEvent.PRESENTATION_READY);
+						readyEvent.presentationName = e.conlibPresnameToGet;
+						LogUtil.debug("LOADING CONLIB DOC LOCALLY: " + e.conlibPresnameToGet);
+						globalDispatcher.dispatchEvent(readyEvent);
+						
+						// Wait before closing the content library dialog as the document loads
+						globalDispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CONVERT_START));
+						var timer:Timer = new Timer((PresentDelayManager.getDelayTime(e.conlibPresnameToGet)+500), 1);
+						timer.addEventListener(TimerEvent.TIMER, function():void {
+													handleCloseConlibWindow();
+												});
+						timer.start();
+						
+						PresentDelayManager.delayMap.push(e.conlibPresnameToGet);
+					} else {
+						handleCloseConlibWindow();
+					}
 					
-					// Wait before closing the content library dialog as the document loads
-					globalDispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CONVERT_START));
-					var timer:Timer = new Timer((PresentDelayManager.getDelayTime(e.conlibPresnameToGet)+500), 1);
-					timer.addEventListener(TimerEvent.TIMER, function():void {
-												handleCloseConlibWindow();
-											});
-					timer.start();
-					
-					PresentDelayManager.delayMap.push(e.conlibPresnameToGet);
 					return;
 				}
 			}

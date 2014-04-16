@@ -7,6 +7,7 @@ package org.bigbluebutton.modules.present.business
 		public static var PRESENT_SHORT_DELAY:Number = 50;
 		
 		public static var delayMap:Array = [];
+		public static var currPres:String = null;
 		
 		public static function getDelayTime(presName:String):Number {
 			return (delayMap.indexOf(presName) == -1) ? PresentDelayManager.PRESENT_FIRST_DELAY : PresentDelayManager.PRESENT_SHORT_DELAY;

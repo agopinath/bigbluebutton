@@ -124,6 +124,7 @@ package org.bigbluebutton.modules.present.business
 		{
 			var presentationName:String = e.presentationName;
 			currPresName = e.presentationName;
+			PresentDelayManager.currPres = e.presentationName;
 			
 			LogUtil.debug("PresentProxy::loadPresentation: presentationName=" + presentationName);
 			var fullUri : String = host + "/bigbluebutton/presentation/" + conference + "/" + room + "/" + presentationName+"/slides";	
