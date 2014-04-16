@@ -110,7 +110,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			import org.bigbluebutton.modules.present.ui.views.PresentOptions;
 			import org.bigbluebutton.modules.whiteboard.events.WhiteboardButtonEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
-             			
+			import org.bigbluebutton.modules.present.business.PresentDelayManager;
+			
       public static const TITLE:String = "Presentation";
 			private static const NEXT_BUTTON:String = "Next";
 			private static const PREVIOUS_BUTTON:String = "Previous";
@@ -196,13 +197,14 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			    var readyEvent:UploadEvent = new UploadEvent(UploadEvent.PRESENTATION_READY);
 			    readyEvent.presentationName = presToShow;
        			    dispatchEvent(readyEvent);
-			    
-			    var timer:Timer = new Timer(4000, 1);
+					
+			    var timer:Timer = new Timer((PresentDelayManager.PRESENT_SHORT_DELAY+300), 1);
                             timer.addEventListener(TimerEvent.TIMER, function():void {
               		    	 toggleTabs(true);
                             });
-                            timer.start();
-
+                timer.start();
+				
+				PresentDelayManager.delayMap.push(presToShow);		
  			    toggleTabs(false);
 			}
 

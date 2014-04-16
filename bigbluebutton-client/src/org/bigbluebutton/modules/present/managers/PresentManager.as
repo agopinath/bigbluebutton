@@ -41,6 +41,7 @@ package org.bigbluebutton.modules.present.managers
 	import org.bigbluebutton.modules.present.ui.views.FileUploadWindow;
 	import org.bigbluebutton.modules.present.ui.views.PresentationWindow;
 	import org.bigbluebutton.modules.present.ui.views.ViewContentLibraryDialog;
+	import org.bigbluebutton.modules.present.business.PresentDelayManager;
 	
 	public class PresentManager
 	{
@@ -144,13 +145,15 @@ package org.bigbluebutton.modules.present.managers
 					LogUtil.debug("LOADING CONLIB DOC LOCALLY: " + e.conlibPresnameToGet);
 					globalDispatcher.dispatchEvent(readyEvent);
 					
-					// Wait 4 seconds before closing the content library dialog as the document loads
+					// Wait before closing the content library dialog as the document loads
 					globalDispatcher.dispatchEvent(new ConlibEvent(ConlibEvent.CONVERT_START));
-					var timer:Timer = new Timer(4000, 1);
+					var timer:Timer = new Timer((PresentDelayManager.getDelayTime(e.conlibPresnameToGet)+500), 1);
 					timer.addEventListener(TimerEvent.TIMER, function():void {
 												handleCloseConlibWindow();
 											});
 					timer.start();
+					
+					PresentDelayManager.delayMap.push(e.conlibPresnameToGet);
 					return;
 				}
 			}

@@ -40,6 +40,7 @@ package org.bigbluebutton.modules.present.business
 	import org.bigbluebutton.modules.present.events.ConlibEvent;
 	import org.bigbluebutton.modules.present.managers.PresentationSlides;
 	import org.bigbluebutton.modules.present.events.NavigationEvent;
+	import org.bigbluebutton.modules.present.business.PresentDelayManager;
 	
 	public class PresentProxy
 	{
@@ -123,6 +124,7 @@ package org.bigbluebutton.modules.present.business
 		{
 			var presentationName:String = e.presentationName;
 			currPresName = e.presentationName;
+			
 			LogUtil.debug("PresentProxy::loadPresentation: presentationName=" + presentationName);
 			var fullUri : String = host + "/bigbluebutton/presentation/" + conference + "/" + room + "/" + presentationName+"/slides";	
 			var slideUri:String = host + "/bigbluebutton/presentation/" + conference + "/" + room + "/" + presentationName;
@@ -143,11 +145,11 @@ package org.bigbluebutton.modules.present.business
 		public function sharePresentation(e:PresenterCommands):void{
 			if (soService == null) return;
 			soService.sharePresentation(e.share, e.presentationName);
-			var timer:Timer = new Timer(3000, 1);
+			var timer:Timer = new Timer(PresentDelayManager.getDelayTime(e.presentationName), 1);
 			timer.addEventListener(TimerEvent.TIMER, sendViewerNotify);
 			timer.start();
-			//soService.gotoSlide(testNum++);
 			
+			PresentDelayManager.delayMap.push(e.presentationName);
 		}
 		
 		public function updatePresentationPageNums(e:NavigationEvent):void {

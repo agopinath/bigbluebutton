@@ -46,6 +46,7 @@
 			import org.bigbluebutton.modules.present.events.ConlibEvent;
 			import org.bigbluebutton.modules.present.events.UploadEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
+			import org.bigbluebutton.modules.present.business.PresentDelayManager;
 			
 			[Bindable] public var conlibFileNamesAC:ArrayCollection;
 			
@@ -108,11 +109,13 @@
 		  private function conlibConvertSuccess(e:UploadEvent):void {
 				progressBar.label = "Conversion of content library document was successful!"
 				closeButton.enabled = false;
-				var timer:Timer = new Timer(4000, 1);
+				var timer:Timer = new Timer(PresentDelayManager.PRESENT_FIRST_DELAY+500, 1);
 				timer.addEventListener(TimerEvent.TIMER, function():void {
 															closeConlibWindow();
 														 });
 				timer.start();
+				
+				PresentDelayManager.delayMap.push(e.presentationName);
 		  }
 		]]>
 	</mx:Script>
