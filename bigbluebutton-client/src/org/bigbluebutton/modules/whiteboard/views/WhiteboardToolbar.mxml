@@ -295,7 +295,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                     showWhiteboardToolbar = true;
 					LogUtil.debug("@@@ Whiteboard toolbar allowed");
 					//handleMouseIn(null);
-					//setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);		
+					setToolType(WhiteboardConstants.TYPE_SHAPE, DrawObject.PENCIL);		
                 } else {
                     showWhiteboardToolbar = false;
                 }
