@@ -44,8 +44,8 @@
              toolTip="{ResourceUtil.getInstance().getString('bbb.fileupload.showBtn.toolTip')}" 
              styleName="presentationUploadShowButtonStyle"
              click="showPresentation()" enabled="true"/>
-  <!--<mx:Button id="deleteBtn" label="" toolTip="{ResourceUtil.getInstance().getString('bbb.fileupload.deleteBtn.toolTip')}" 
+  <mx:Button id="deleteBtn" label="" toolTip="{ResourceUtil.getInstance().getString('bbb.fileupload.deleteBtn.toolTip')}" 
              styleName="presentationUploadDeleteButtonStyle"
-             click="deletePresentation()" enabled="true"/>-->
+             click="deletePresentation()" enabled="true"/>
   
 </mx:HBox>

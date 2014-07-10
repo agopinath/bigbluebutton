@@ -64,7 +64,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 	
 	<mate:Listener type="{ShortcutEvent.MINIMIZE_PRES}" method="remoteMinimize" />
 	<mate:Listener type="{ShortcutEvent.MAXIMIZE_PRES}" method="remoteMaximize" />
- 	<mate:Listener type="{RemovePresentationEvent.REMOVE_PRESENTATION_EVENT}" method="removePresTab" />	
+ 	<mate:Listener type="{RemovePresentationEvent.PRESENTATION_REMOVED_EVENT}" method="removePresTab" />	
 	
 	<mx:Script>
 		<![CDATA[
@@ -215,6 +215,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
                 }
 	    }
 		 private function removePresTab(evt:RemovePresentationEvent):void {
+		LogUtil.debug("@@@REMOVE PRESENTATION TAB INVOKED!!!");
                 for(var i:Number = 0; i < tn.numChildren; i++) {
                         var btn:Button = tn.getTabAt(i) as Button;
                         if(btn.label == evt.presentationName) {
