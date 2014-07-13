@@ -27,7 +27,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 		   mouseOut = "mouseOutHandler(event)"
 		   click = "handleClick(event)"
            height="24"
-		   toolTip="{this.selected ? drawOffTooltip : drawOnTooltip}"
+		   toolTip="{this.selected ? ResourceUtil.getInstance().getString('bbb.toolbar.multidraw.toolTip.stop') : ResourceUtil.getInstance().getString('bbb.toolbar.multidraw.toolTip.start')}"
 		   visible="false"
 		   implements="org.bigbluebutton.common.IBbbToolbarComponent">
 
