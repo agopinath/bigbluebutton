@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <layouts>
-	<layout name="LTB Default Layout" default="true">
+	<layout name="LTB Default Layout">
 		<window name="NotesWindow" hidden="true" width="0.7" height="1" x="0" y="0"/>
 		<window name="BroadcastWindow" hidden="true"/>
 		<window name="PresentationWindow" width="0.825" height="1.00" x="0.175" y="0"/>
@@ -10,7 +10,7 @@
 		<window name="ViewersWindow" hidden="true" width="0.17" height="0.33" x="0" y="0"/>
 		<window name="ListenersWindow" hidden="true" width="0.17" height="0.33" x="0" y="0.34"/>
 	</layout>
-	<layout name="LTB Default with Webcams">
+	<layout name="LTB Default with Webcams" default="true">
 		<window name="NotesWindow" hidden="true" width="0.7" height="1" x="0" y="0"/>
 		<window name="BroadcastWindow" hidden="true"/>
 		<window name="PresentationWindow" width="0.825" height="1.00" x="0.175" y="0"/>

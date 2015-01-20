@@ -25,7 +25,7 @@ package org.bigbluebutton.modules.present.events
 		public static const PRESENTATION_WINDOW_RESIZED_EVENT:String = "PRESENTATION_WINDOW_RESIZED_EVENT";
 		public var width:Number = 450;
 		public var height:Number = 450;
-		public var fitToPage:Boolean = true;
+		public var fitToPage:Boolean = false;
 		
 		public var old_width:Number = 450;
 		public var old_height:Number = 450;

@@ -303,7 +303,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				mainContainer.percentWidth = 100;
 			}
 	
-			[Bindable] private var fitToPage:Boolean = true;
+			[Bindable] private var fitToPage:Boolean = false;
 			
 			private function fitSlideToWindowMaintainingAspectRatio():void {
 				if (this.minimized) return;
@@ -468,6 +468,8 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 				onResetZoom();
 				syncTabs();
 				mainContainer.percentWidth = 100;
+				onFitToPage(false);
+				LogUtil.debug("@@FIT TO PAGE IN HANDLEPRESLOADEVET");
 			}
 			
 			private function displaySlideNavigationControls(show:Boolean):void {
@@ -692,8 +694,9 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 			private function remoteWidth(e:ShortcutEvent):void{
 				if (btnFitToWidth.visible){
 					btnFitToWidth.setFocus();
-					onFitToPage(false);
+					//onFitToPage(false);
 				}
+				onFitToPage(false);
 			}
 			
 			private function remotePage(e:ShortcutEvent):void{
@@ -701,6 +704,7 @@ with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 					btnFitToPage.setFocus();
 					onFitToPage(true);
 				}
+			 LogUtil.debug("@@FIT TO PAGE IN REMOTE PAGE");
 			}
 			
 			private function onUploadButtonClicked():void {
